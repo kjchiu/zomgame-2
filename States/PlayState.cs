@@ -25,32 +25,32 @@ namespace Zomgame.States
         {
             camera = game.Camera;
             int y = camera.Height * Game.MAP_BLOCK_SIZE;
-            msgLog = new MessageLog(0, y, camera.Width * Game.MAP_BLOCK_SIZE, game.Window.ClientBounds.Height - y);
+            msgLog = new MessageLog(0, y, camera.Width * Game.MAP_BLOCK_SIZE, game.Window.ClientBounds.Height - y, Screen);
         }
 
         #region IState Members
 
-        public override void Update(GameTime time)
+        public override void UpdateState(GameTime time, InputHandler input)
         {
             
 			//first handle CTRL/ALT/SHIFT keys
 			if (KeyIsHeld(KeyBindings.L_CTRL) || KeyIsHeld(KeyBindings.R_CTRL))
 			{
-				if (KeyIsPushed(KeyBindings.UP)){
+				if (input.Consume(KeyBindings.UP)){
 					MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1);
 					EventHandler.Instance.AddEvent(EventFactory.CreateAttackSpaceEvent(player, location));
 				}
-				else if (KeyIsPushed(KeyBindings.DOWN))
+				else if (input.Consume(KeyBindings.DOWN))
 				{
 					MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1);
 					EventHandler.Instance.AddEvent(EventFactory.CreateAttackSpaceEvent(player, location));
 				}
-				else if (KeyIsPushed(KeyBindings.LEFT))
+				else if (input.Consume(KeyBindings.LEFT))
 				{
 					MapBlock location = map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y);
 					EventHandler.Instance.AddEvent(EventFactory.CreateAttackSpaceEvent(player, location));
 				}
-				else if (KeyIsPushed(KeyBindings.RIGHT))
+				else if (input.Consume(KeyBindings.RIGHT))
 				{
 					MapBlock location = map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y);
 					EventHandler.Instance.AddEvent(EventFactory.CreateAttackSpaceEvent(player, location));
@@ -76,76 +76,77 @@ namespace Zomgame.States
             }
             else if (KeyIsHeld(KeyBindings.L_ALT) || KeyIsHeld(KeyBindings.R_ALT))
             {
-                if (KeyIsPushed(KeyBindings.UP))
+                if (input.Consume(KeyBindings.UP))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1);
                     EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
                 }
-                else if (KeyIsPushed(KeyBindings.DOWN))
+                else if (input.Consume(KeyBindings.DOWN))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1);
                     EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
                 }
-                else if (KeyIsPushed(KeyBindings.LEFT))
+                else if (input.Consume(KeyBindings.LEFT))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y);
                     EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
                 }
-                else if (KeyIsPushed(KeyBindings.RIGHT))
+                else if (input.Consume(KeyBindings.RIGHT))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y);
                     EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
                 }
             }
-            else if (InputHandler.Instance.IsKeyPushed(Keys.Escape)){
+            else if (input.Consume(Keys.Escape)){
                 this.Exit();
 			}
-			else if (InputHandler.Instance.IsKeyPushed(KeyBindings.LEFT))
+			else if (input.Consume(KeyBindings.LEFT))
             {
 				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y)));
             }
-			else if (InputHandler.Instance.IsKeyPushed(KeyBindings.RIGHT))
+			else if (input.Consume(KeyBindings.RIGHT))
             {
 				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y)));
             }
-			else if (InputHandler.Instance.IsKeyPushed(KeyBindings.DOWN))
+			else if (input.Consume(KeyBindings.DOWN))
             {
 				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1)));
             }
-			else if (InputHandler.Instance.IsKeyPushed(KeyBindings.UP))
+			else if (input.Consume(KeyBindings.UP))
             {
 				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1)));
             }
-			else if (InputHandler.Instance.IsKeyPushed(KeyBindings.PICK_UP))
+			else if (input.Consume(KeyBindings.PICK_UP))
 			{
 				if (player.Location.HasItems)
 				{
 					EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, player.Location.ItemAt(0)));
 				}
 			}
-			else if (InputHandler.Instance.IsKeyPushed(Keys.W))
+			else if (input.Consume(Keys.W))
             {
 				EventHandler.Instance.AddEvent(EventFactory.CreateWaitEvent(player));
             }
-			else if (InputHandler.Instance.IsKeyPushed(KeyBindings.OPEN_INV))
+			else if (input.Consume(KeyBindings.OPEN_INV))
             {
-                AddState(StateFactory.CreateInventoryState());
+                //AddState(StateFactory.CreateInventoryState());
+                Screen.AddWindow(new InventoryWindow(0, 0, 200, 200, Screen, player));
             }
-			else if (KeyIsPushed(Keys.N))
+			else if (input.Consume(Keys.N))
 			{
 				EventHandler.Instance.AddEvent(EventFactory.CreateMakeNoiseEvent(map.GetBlockAt(player.Location.Coordinates), 50));
 			}
-            else if (KeyIsPushed(Keys.Back))
+            else if (input.Consume(Keys.Back))
             {
                 MessageBus.Instance.AddMessage(new FillerMessage());
             }
-			else if (KeyIsPushed(Keys.E))
+			else if (input.Consume(Keys.E))
 			{
 				Trace.WriteLine("Player is equipped with " + player.EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name);
 			}
         }
 
-        public override void Draw(GameTime time)
+        public override void DrawState(GameTime time)
         {
 			camera.Draw(spriteBatch);
             msgLog.Draw(spriteBatch);

@@ -29,13 +29,13 @@ namespace Zomgame.UI
         protected Boolean filled;
         public static SpriteFont Font;
 
-        public MessageLog(int x, int y, int width, int height)
-            : this(x, y, width, height, new Color(0xEB, 0xC0, 0x2C))
+        public MessageLog(int x, int y, int width, int height, Screen screen)
+            : this(x, y, width, height, screen, new Color(0xEB, 0xC0, 0x2C))
         {
         }
 
-        public MessageLog(int x, int y, int width, int height, Color color)
-            : base(x, y, width, height, String.Empty)
+        public MessageLog(int x, int y, int width, int height, Screen screen, Color color)
+            : base(x, y, width, height, screen, String.Empty)
         {
             MessageBus.Instance.AddListener(this);
             int textHeight = (int)Font.MeasureString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?").Y;

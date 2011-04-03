@@ -224,11 +224,12 @@
     <Compile Include="Factories\PropFactory.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GraphicsDispenser.cs" />
+    <Compile Include="States\GameState.cs" />
     <Compile Include="States\ItemDetailsState.cs" />
     <Compile Include="UI\Brush.cs" />
     <Compile Include="UI\InteractiveWindow.cs" />
     <Compile Include="UI\InventoryWindow.cs" />
-    <Compile Include="UI\Manager.cs" />
+    <Compile Include="UI\Screen.cs" />
     <Compile Include="UI\TextBox.cs" />
     <Compile Include="UI\TextReader.cs" />
     <Compile Include="ZombieStates\HuntState.cs" />
@@ -250,7 +251,6 @@
     <Compile Include="ZSpriteBatch.cs" />
     <Compile Include="States\InventoryState.cs" />
     <Compile Include="States\PlayState.cs" />
-    <Compile Include="States\BaseState.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="States\StateFactory.cs" />
     <Compile Include="Terrain.cs" />

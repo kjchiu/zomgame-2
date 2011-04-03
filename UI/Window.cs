@@ -7,10 +7,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zomgame.UI
 {
-    public abstract class Window : Widget
+    public abstract class Window : Widget, IDisposable
     {
         private int margin;
         private int border;
+        protected Screen Screen
+        {
+            get;
+            private set;
+        }
 
         public virtual Color BackgroundColour
         {
@@ -22,11 +27,12 @@ namespace Zomgame.UI
             get { return Color.DarkGray; }
         }
 
-        public Window(int x, int y, int width, int height)
+        public Window(int x, int y, int width, int height, Screen screen)
             : base(x, y, width, height)
         {
             margin = 5;
             border = 1;
+            Screen = screen;
         }
 
         public virtual bool HandlesInput
@@ -45,7 +51,21 @@ namespace Zomgame.UI
 
         public abstract void DrawContent(Brush brush);
 
-        public virtual void Update(GameTime gameTime)
-        {}
+        public virtual void Update(GameTime gameTime, InputHandler input)
+        {
+        }
+
+        public void Close()
+        {
+            Screen.RemoveWindow(this);
+        }
+
+        public void Dispose()
+        {
+            if (Screen != null)
+            {
+                Screen.RemoveWindow(this);
+            }
+        }
     }
 }

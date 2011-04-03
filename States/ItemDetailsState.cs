@@ -33,7 +33,7 @@ namespace Zomgame.States
             abilityNames = new List<String>(examinedItem.Abilities.Keys);
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime time)
+        public override void UpdateState(GameTime time, InputHandler input)
         {
             if (KeyIsPushed(Keys.Escape))
             {
@@ -62,7 +62,7 @@ namespace Zomgame.States
             }
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime time)
+        public override void DrawState(GameTime time)
         {
             spriteBatch.DrawRectangle((int)topLeft.X, (int)topLeft.Y, width, height, Color.Black, 1, Color.DarkGray);
             for (int i = 0; i < abilityNames.Count; i++)

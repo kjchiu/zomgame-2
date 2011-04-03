@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Zomgame.Events;
+using Zomgame.Factories;
 
 namespace Zomgame.UI
 {
@@ -26,33 +28,65 @@ namespace Zomgame.UI
         private uint selectedSource;
         private uint selectedIndex;
 
+        #region
+        //TODO Purge this garbage once inventory window renders
+        protected ItemSource SelectedSource
+        {
+            get { return (ItemSource)(int)(selectedSource); }
+        }
+        protected enum ItemSource { Player, Ground, NUM_SOURCES };
+        protected enum ItemEvent { GrabItem, UseItem };
+        protected delegate BaseEvent ItemDelegate(Player player, Item item, EventHandler handler);
+        protected readonly IDictionary<ItemSource, IDictionary<ItemEvent, Action>> itemEventDelegates;
+        private Player player;
+        #endregion
+
+        public InventoryWindow(int x, int y, int width, int height, Screen screen, Player player)
+            : base(x, y, width, height, screen)
+        {
+            itemEventDelegates = new Dictionary<ItemSource, IDictionary<ItemEvent, Action>>();
+            this.player = player;
+            items = new List<Item>[] { player.Inventory, player.Location.Items };
+            IDictionary<ItemSource, Action> playerEventDelegates = new Dictionary<ItemSource, Action>();
+
+            IDictionary<ItemEvent, Action> itemEventHandler = new Dictionary<ItemEvent, Action>();
+            itemEventHandler.Add(ItemEvent.GrabItem, () => EventHandler.Instance.AddEvent(EventFactory.CreateDropItemEvent(player, items[(int)selectedSource][(int)selectedIndex])));
+            itemEventHandler.Add(ItemEvent.UseItem, () => { });
+            itemEventDelegates.Add(ItemSource.Player, itemEventHandler);
+
+            itemEventHandler = new Dictionary<ItemEvent, Action>();
+            itemEventHandler.Add(ItemEvent.GrabItem, () => EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, items[(int)selectedSource][(int)selectedIndex])));
+            itemEventHandler.Add(ItemEvent.UseItem, () => { });
+            itemEventDelegates.Add(ItemSource.Ground, itemEventHandler);
+        }
+
         public override Actions ProcessKey(InputHandler input)
         {
-            if (input.IsKeyPushed(KeyBindings.UP))
+            if (input.Consume(KeyBindings.UP))
             {
                 return Actions.Up;
             }
-            else if (input.IsKeyPushed(KeyBindings.DOWN))
+            else if (input.Consume(KeyBindings.DOWN))
             {
                 return Actions.Down;
             }
-            else if (input.IsKeyPushed(KeyBindings.LEFT))
+            else if (input.Consume(KeyBindings.LEFT))
             {
                 return Actions.Left;
             }
-            else if (input.IsKeyPushed(KeyBindings.RIGHT))
+            else if (input.Consume(KeyBindings.RIGHT))
             {
                 return Actions.Right;
             }
-            else if (input.IsKeyPushed(KeyBindings.CLOSE_INV))
+            else if (input.Consume(KeyBindings.CLOSE_INV))
             {
                 return Actions.Close;
             }
-            else if (input.IsKeyPushed(KeyBindings.DROP_ITEM))
+            else if (input.Consume(KeyBindings.DROP_ITEM))
             {
                 return Actions.Drop;
             }
-            else if (input.IsKeyPushed(Keys.A))
+            else if (input.Consume(Keys.A))
             {
                 return Actions.Ability;
             }
@@ -62,7 +96,7 @@ namespace Zomgame.UI
             }
         }
 
-        public void Update(GameTime gameTime, Actions action)
+        public override void Update(GameTime gameTime, Actions action)
         {
             switch (action)
             {
@@ -96,17 +130,29 @@ namespace Zomgame.UI
                         selectedIndex = 0;
                         selectedSource = (uint)ItemSource.Player;
                     }
-
+                    break;
+                case Actions.Close:
+                    this.Close();
+                    break;
             }
 
             if (items[selectedSource].Count > 0)
             {
-                selectedIndex = (uint)Math.Min(Items[selectedSource].Count, (int)selectedIndex);
+                selectedIndex = (uint)Math.Min(items[selectedSource].Count, (int)selectedIndex);
             }
             else
             {
                 selectedSource = (--selectedSource) % 2;
             }
         }
-    }
+
+        /// <summary>
+        /// Draw inventory window
+        /// </summary>
+        /// <param name="brush"></param>
+        public override void DrawContent(Brush brush)
+        {
+
+        }
+    }   
 }

@@ -64,7 +64,7 @@ namespace Zomgame.States
             itemEventDelegates.Add(ItemSource.Ground, itemEventHandler);
         }
         
-        public override void Update(GameTime time)
+        public override void UpdateState(GameTime time, InputHandler input)
         {
             if (selectedIndex >= items[selectedSource].Count)
             {
@@ -163,7 +163,7 @@ namespace Zomgame.States
             }
         }
 
-        public override void Draw(GameTime time)
+        public override void DrawState(GameTime time)
         {
             window.Draw(spriteBatch);
             int columnWidth = width / 2;

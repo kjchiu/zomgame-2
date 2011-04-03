@@ -6,12 +6,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Zomgame {
     public class InputHandler {
+        private static InputHandler instance = null;
+
         private KeyboardState currentKeyState;
 		private KeyboardState previousKeyState;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 
-		private static InputHandler instance = null;
+        private HashSet<Keys> handledKeys;
+        
 
 		private InputHandler()
 		{
@@ -19,6 +22,7 @@ namespace Zomgame {
             previousKeyState = currentKeyState;
             currentMouseState = Mouse.GetState();
             previousMouseState = currentMouseState;
+            handledKeys = new HashSet<Keys>();
         }
 
 		public static InputHandler Instance{
@@ -67,6 +71,15 @@ namespace Zomgame {
             return Keyboard.GetState().IsKeyDown(key);
         }
 
+        public bool Consume(Keys key)
+        {
+            if (IsKeyPushed(key) && !handledKeys.Contains(key))
+            {
+                handledKeys.Add(key);
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Updates the keyboard states. Important for the 'previousState' variable.
         /// </summary>
@@ -75,6 +88,7 @@ namespace Zomgame {
             currentKeyState = Keyboard.GetState();
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+            handledKeys.Clear();
         }
     }
 }

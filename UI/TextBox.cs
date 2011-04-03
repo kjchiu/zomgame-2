@@ -16,25 +16,19 @@ namespace Zomgame.UI
         private Color color;
 
 
-        public TextBox(int x, int y, int width, int height, string _message)
-            : this(x, y, width, height, new string[] { _message })
+        public TextBox(int x, int y, int width, int height, Screen screen, string _message)
+            : this(x, y, width, height, screen, new string[] { _message })
         {
-            {
-                int i;
-            }
-            {
-                string i;
-            }
         }
 
-        public TextBox(int x, int y, int width, int height, IEnumerable<string> _messages)
-            : this(x, y, width, height, _messages, GraphicsDispenser.GetFont("Default"), Color.Gold)
+        public TextBox(int x, int y, int width, int height, Screen screen, IEnumerable<string> _messages)
+            : this(x, y, width, height, screen, _messages, GraphicsDispenser.GetFont("Default"), Color.Gold)
         {
             
         }
 
-        public TextBox(int x, int y, int width, int height, IEnumerable<string> _messages, SpriteFont _font, Color _color)
-            : base(x, y, width, height)
+        public TextBox(int x, int y, int width, int height, Screen screen, IEnumerable<string> _messages, SpriteFont _font, Color _color)
+            : base(x, y, width, height, screen)
         {
             font = _font;
             textReader = new TextReader(font, width);

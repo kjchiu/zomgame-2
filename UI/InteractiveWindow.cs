@@ -7,7 +7,7 @@ using Zomgame.Events;
 
 namespace Zomgame.UI
 {
-    abstract class InteractiveWindow<T> : Window
+    abstract class InteractiveWindow : Window
     {
         public override bool HandlesInput
         {
@@ -17,18 +17,25 @@ namespace Zomgame.UI
             }
         }
 
-        public InteractiveWindow(int x, int y, int width, int height)
-            : base(x, y, width, height)
+        public InteractiveWindow(int x, int y, int width, int height, Screen screen)
+            : base(x, y, width, height, screen)
+        { }
+      
+    }
+
+    abstract class InteractiveWindow<T> : InteractiveWindow
+    {
+
+        public InteractiveWindow(int x, int y, int width, int height, Screen screen)
+            : base(x, y, width, height, screen)
         { }
 
-       
-        public abstract void Update(GameTime gameTime, T arg);
-
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, InputHandler input)
         {
-            T arg = ProcessKey(InputHandler.Instance);
+            T arg = ProcessKey(input);
             Update(gameTime, arg);
         }
+        public abstract void Update(GameTime gameTime, T arg);
 
         public abstract T ProcessKey(InputHandler input);
     }
