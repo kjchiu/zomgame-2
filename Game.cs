@@ -18,6 +18,8 @@ using Zomgame.Messaging.Messages;
 using Zomgame.Props;
 using Zomgame.Abilities;
 using Zomgame.Items;
+using Graphics;
+using Zomgame.Utility;
 
 namespace Zomgame
 {
@@ -146,23 +148,15 @@ namespace Zomgame
         /// </summary>
         protected override void LoadContent()
         {
-			
 
+            Logger.Log("Loading Content");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new ZSpriteBatch(GraphicsDevice);
 
-			DirectoryInfo di = new DirectoryInfo(Content.RootDirectory);
-			
-			foreach (FileInfo fi in di.GetFiles("*_bmp.xnb"))
-			{
-				GraphicsDispenser.addTexture(Path.GetFileNameWithoutExtension(fi.Name), Content.Load<Texture2D>(Path.Combine(Path.GetDirectoryName(fi.Name), Path.GetFileNameWithoutExtension(fi.Name))));
-				//GraphicsDispenser.addTexture(fi.Name.Remove(fi.Name.Length - 4), Content.Load<Texture2D>(Content.RootDirectory + "/" + fi.Name.Remove(fi.Name.Length - 4)));
-			}
+            GraphicsDispenser.LoadTextureData(Content);
+            GraphicsDispenser.LoadFontData(Content);
 
-            font = Content.Load<SpriteFont>("Courier New");
-            GraphicsDispenser.AddFont("Courier New", font);
-            GraphicsDispenser.AddFont("Default", font);
-            MessageLog.Font = font;
+            MessageLog.Font = GraphicsDispenser.getFont("MessageBarFont") ;
 			LoadData();
             StateFactory.Init(this);
             this.AddState(StateFactory.CreatePlayState(camera));
