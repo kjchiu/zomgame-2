@@ -12,54 +12,54 @@ namespace Zomgame.UI
     /// </summary>
     public class Screen
     {
-        ICollection<Window> windows;
-        ICollection<InteractiveWindow> interactiveWindows;
-        ICollection<Window> purgeList;
+        ICollection<Panel> panels;
+        ICollection<InteractivePanel> interactivePanels;
+        ICollection<Panel> purgeList;
 
-        public IEnumerable<Window> Windows
+        public IEnumerable<Panel> Panels
         {
             get
             {
-                foreach (var window in windows)
+                foreach (var panel in panels)
                 {
-                    yield return window;
+                    yield return panel;
                 }
 
-                foreach (var window in interactiveWindows)
+                foreach (var panel in interactivePanels)
                 {
-                    yield return window;
+                    yield return panel;
                 }
             }
         }
 
         public Screen()
         {
-            windows = new List<Window>();
-            interactiveWindows = new LinkedList<InteractiveWindow>();
-            purgeList = new LinkedList<Window>();
+            panels = new List<Panel>();
+            interactivePanels = new LinkedList<InteractivePanel>();
+            purgeList = new LinkedList<Panel>();
         }
 
         public void Draw(GameTime gameTime, ZSpriteBatch spriteBatch)
         {
-            foreach (var window in Windows)
+            foreach (var panel in Panels)
             {
-                window.Draw(spriteBatch);
+                panel.Draw(spriteBatch);
             }            
         }
 
         public void Update(GameTime gameTime, InputHandler input)
         {
-            foreach(var window in interactiveWindows)
+            foreach(var panel in interactivePanels)
             {
-                window.Update(gameTime, input);
+                panel.Update(gameTime, input);
             }
             try
             {
-                foreach (var window in purgeList)
+                foreach (var panel in purgeList)
                 {
-                    windows.Remove(window);
-                    var interactiveWindow = window as InteractiveWindow;
-                    if (interactiveWindows != null) interactiveWindows.Remove(interactiveWindow);
+                    panels.Remove(panel);
+                    var interactivePanel = panel as InteractivePanel;
+                    if (interactivePanels != null) interactivePanels.Remove(interactivePanel);
                 }
             }
             catch (Exception e)
@@ -69,21 +69,21 @@ namespace Zomgame.UI
             purgeList.Clear();
         }
 
-        public void AddWindow(Window window)
+        public void AddPanel(Panel panel)
         {
-            if (window is InteractiveWindow)
+            if (panel is InteractivePanel)
             {
-                interactiveWindows.Add((InteractiveWindow)window);
+                interactivePanels.Add((InteractivePanel)panel);
             }
             else
             {
-                windows.Add(window);
+                panels.Add(panel);
             }
         }
 
-        public void RemoveWindow(Window window)
+        public void RemovePanel(Panel panel)
         {
-            purgeList.Add(window);
+            purgeList.Add(panel);
         }
     }
 }

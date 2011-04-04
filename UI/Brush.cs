@@ -29,12 +29,12 @@ namespace Zomgame.UI
             private set;
         }
 
-        public Brush(ZSpriteBatch spriteBatch, Window window)
+        public Brush(ZSpriteBatch spriteBatch, Panel panel)
             : base(spriteBatch.GraphicsDevice)
         {
             this.spriteBatch = spriteBatch;
-            X = window.X;
-            Y = window.Y;
+            X = panel.X;
+            Y = panel.Y;
             Offset = new Vector2(X, Y);
         }
 

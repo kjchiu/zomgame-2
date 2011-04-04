@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zomgame.UI
 {
-    public abstract class Window : Widget, IDisposable
+    public abstract class Panel : Widget, IDisposable
     {
         private int margin;
         private int border;
@@ -27,7 +27,7 @@ namespace Zomgame.UI
             get { return Color.DarkGray; }
         }
 
-        public Window(int x, int y, int width, int height, Screen screen)
+        public Panel(int x, int y, int width, int height, Screen screen)
             : base(x, y, width, height)
         {
             margin = 5;
@@ -57,14 +57,14 @@ namespace Zomgame.UI
 
         public void Close()
         {
-            Screen.RemoveWindow(this);
+            Screen.RemovePanel(this);
         }
 
         public void Dispose()
         {
             if (Screen != null)
             {
-                Screen.RemoveWindow(this);
+                Screen.RemovePanel(this);
             }
         }
     }

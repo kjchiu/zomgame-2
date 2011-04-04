@@ -27,7 +27,7 @@ namespace Zomgame.States
         protected List<Item>[] items;
         protected uint selectedIndex = 0;
         protected uint selectedSource = 0;
-        protected Window window;
+        protected Panel panel;
 
         protected ItemSource SelectedSource
         {
@@ -45,10 +45,8 @@ namespace Zomgame.States
             anchor = new Vector2(border, spriteBatch.GraphicsDevice.Viewport.Height / 2 - border);
             width = (int)(spriteBatch.GraphicsDevice.Viewport.Height) - border - border;
             height = spriteBatch.GraphicsDevice.Viewport.Height / 2 + border;
-            items = new List<Item>[] { player.Inventory, player.Location.Items };
-            //window = new Window((int)anchor.X, (int)anchor.Y, width, height);
+            items = new List<Item>[] { player.Inventory, player.Location.Items };            
             
-
             itemEventDelegates = new Dictionary<ItemSource, IDictionary<ItemEvent, Action>>();
 
             IDictionary<ItemSource, Action> playerEventDelegates = new Dictionary<ItemSource, Action>(); 
@@ -165,7 +163,7 @@ namespace Zomgame.States
 
         public override void DrawState(GameTime time)
         {
-            window.Draw(spriteBatch);
+            panel.Draw(spriteBatch);
             int columnWidth = width / 2;
             for (int column = 0; column < 2; ++column)
             {

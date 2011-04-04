@@ -9,7 +9,7 @@ using Zomgame.Factories;
 
 namespace Zomgame.UI
 {
-    class InventoryWindow : InteractiveWindow<InventoryWindow.Actions>
+    class InventoryPanel : InteractivePanel<InventoryPanel.Actions>
     {
         public enum Actions
         {
@@ -29,7 +29,7 @@ namespace Zomgame.UI
         private uint selectedIndex;
 
         #region
-        //TODO Purge this garbage once inventory window renders
+        //TODO Purge this garbage once inventory panel renders
         protected ItemSource SelectedSource
         {
             get { return (ItemSource)(int)(selectedSource); }
@@ -41,7 +41,7 @@ namespace Zomgame.UI
         private Player player;
         #endregion
 
-        public InventoryWindow(int x, int y, int width, int height, Screen screen, Player player)
+        public InventoryPanel(int x, int y, int width, int height, Screen screen, Player player)
             : base(x, y, width, height, screen)
         {
             itemEventDelegates = new Dictionary<ItemSource, IDictionary<ItemEvent, Action>>();
@@ -147,7 +147,7 @@ namespace Zomgame.UI
         }
 
         /// <summary>
-        /// Draw inventory window
+        /// Draw inventory panel
         /// </summary>
         /// <param name="brush"></param>
         public override void DrawContent(Brush brush)

@@ -130,7 +130,7 @@ namespace Zomgame.States
 			else if (input.Consume(KeyBindings.OPEN_INV))
             {
                 //AddState(StateFactory.CreateInventoryState());
-                Screen.AddWindow(new InventoryWindow(0, 0, 200, 200, Screen, player));
+                Screen.AddPanel(new InventoryPanel(0, 0, 200, 200, Screen, player));
             }
 			else if (input.Consume(Keys.N))
 			{

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Zomgame.UI
 {
-    public class TextBox : Window
+    public class TextBox : Panel
     {
         protected IEnumerable<string> messages;
 
