@@ -250,7 +250,6 @@
     <Compile Include="ZombieStates\WanderState.cs" />
     <Compile Include="ZombieStates\ZombieState.cs" />
     <Compile Include="ZSpriteBatch.cs" />
-    <Compile Include="States\InventoryState.cs" />
     <Compile Include="States\PlayState.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="States\StateFactory.cs" />
