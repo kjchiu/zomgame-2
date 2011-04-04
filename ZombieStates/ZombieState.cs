@@ -62,7 +62,7 @@ namespace Zomgame
 		{
 			if (!to.Passable)
 			{
-				int closestH = 1000;
+				//int closestH = 1000;
 				foreach (MapBlock mb in to.SurroundingBlocks)
 				{
 					PathBlock p = new PathBlock(mb, null);

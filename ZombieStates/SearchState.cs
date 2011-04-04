@@ -10,7 +10,7 @@ namespace Zomgame.ZombieStates
 {
     class SearchState : ZombieState
     {
-		MapBlock destination, oldDestination;
+		MapBlock destination;
 		List<PathBlock> path;
 
         public SearchState(Zombie aZombie, Player nPlayer)
