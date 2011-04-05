@@ -12,9 +12,9 @@ namespace Zomgame.Events
 {
 	class AttackEvent : BaseEvent
 	{
-		Entity attacker, defender;
+		Creature attacker, defender;
 
-		public AttackEvent(Entity nAttacker, Entity nDefender)
+		public AttackEvent(Creature nAttacker, Creature nDefender)
 		{
 			attacker = nAttacker;
 			defender = nDefender;
@@ -22,7 +22,7 @@ namespace Zomgame.Events
 
 		public override void fireEvent()
 		{
-			attacker.State = Entity.EntityState.IDLE;
+			attacker.State = Creature.EntityState.IDLE;
 			Trace.WriteLine(attacker.Name + " has attacked " + defender.Name);
 			//for now, make it simple
             int damage = 10;

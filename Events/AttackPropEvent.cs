@@ -9,10 +9,10 @@ namespace Zomgame.Events
 {
 	class AttackPropEvent : BaseEvent
 	{
-		Entity attacker;
+		Creature attacker;
 		Prop defender;
 
-		public AttackPropEvent(Entity nAttacker, Prop nDefender)
+		public AttackPropEvent(Creature nAttacker, Prop nDefender)
 		{
 			attacker = nAttacker;
 			defender = nDefender;
@@ -22,7 +22,7 @@ namespace Zomgame.Events
 		{
 			if (defender != null)
 			{
-				attacker.State = Entity.EntityState.IDLE;
+				attacker.State = Creature.EntityState.IDLE;
 				Trace.WriteLine(attacker.Name + " has attacked " + defender.Name);
 				//for now, make it simple
 

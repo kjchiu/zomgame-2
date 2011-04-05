@@ -17,10 +17,13 @@ namespace Zomgame {
         MapBlock[,] mapBlocks;
         Color[,] lightMap;
         List<Light> lights; //required in order to check all lights
-		List<Entity> mapEntities;
+		List<Creature> mapEntities;
 
         int width, height;
 
+        public delegate void RemoveObjectDel(GameObject aGObject);
+        public delegate void AddObjectAtDel(GameObject aGObject, int aX, int aY);
+        
         #region " Properties "
         public int Width
         {
@@ -37,7 +40,7 @@ namespace Zomgame {
             get { return lightMap; }
         }
 
-		public List<Entity> MapEntities
+		public List<Creature> MapEntities
 		{
 			get { return mapEntities; }
 		}
@@ -59,7 +62,7 @@ namespace Zomgame {
                     lightMap[i, j] = Color.Gray;
                 }
             }
-			mapEntities = new List<Entity>();
+			mapEntities = new List<Creature>();
         }
 
         public void SetBlockAt(MapBlock nBlock, int x, int y) {
@@ -80,21 +83,24 @@ namespace Zomgame {
             }
             return new MapBlock(new Coord(-1, -1), this);
         }
-
+        
 		public void AddObjectAt(GameObject gObject, int x, int y)
 		{
-			if (gObject is Entity)
+            gObject.AddObjectAt = new AddObjectAtDel(AddObjectAt);
+            gObject.RemoveObject = new RemoveObjectDel(RemoveObject);
+
+			if (gObject is Creature)
 			{
-				mapBlocks[x,y].Entities.Add((Entity)gObject);
-				mapEntities.Add((Entity)gObject);
+				mapBlocks[x,y].AddObject((Creature)gObject);
+				mapEntities.Add((Creature)gObject);
 			}
 			else if (gObject is Prop)
 			{
-				mapBlocks[x,y].Props.Add((Prop)gObject);
+                mapBlocks[x, y].AddObject((Prop)gObject);
 			}
 			else if (gObject is Item)
 			{
-				mapBlocks[x,y].Items.Add((Item)gObject);
+                mapBlocks[x, y].AddObject((Item)gObject);
 			}
 
             if (gObject is Light)
@@ -103,6 +109,12 @@ namespace Zomgame {
             }
 			gObject.Location = mapBlocks[x,y];
 		}
+
+        public void RemoveObject(GameObject aGameObject)
+        {
+            MapBlock lObjectBlock = aGameObject.Location;
+            lObjectBlock.RemoveObject(aGameObject);
+        }
 
         public bool IsInMap(Coord coord)
         {

@@ -52,7 +52,7 @@ namespace Zomgame
         protected SpriteFont font;
         protected double inputTimePassed = 0;
         protected bool canInput = false;
-        protected List<Entity> entities;
+        protected List<Creature> entities;
         protected InputHandler inputHandler;
         protected LinkedList<GameState> states; // new states add to end
                                                 // update using only last
@@ -77,7 +77,7 @@ namespace Zomgame
             get { return map; }
         }
 
-        public List<Entity> Entities
+        public List<Creature> Entities
         {
             get { return entities; }
         }
@@ -119,7 +119,7 @@ namespace Zomgame
             //inputHandler = InputHandler.Instance;
             Content.RootDirectory = "Content";
 
-            entities = new List<Entity>();          
+            entities = new List<Creature>();          
             states = new LinkedList<GameState>();
             this.IsMouseVisible = true;
             
@@ -165,9 +165,8 @@ namespace Zomgame
 
 		protected void LoadData()
 		{
-			player = new Player(new Vector2(0, 0), "player_bmp");
-			player.Graphic.Texture = GraphicsDispenser.getTexture("player_bmp");
-            player.AddSkill(new Skill(SkillNames.MEDICAL_SKILL));
+			player = new Player("player_bmp");
+			player.AddSkill(new Skill(SkillNames.MEDICAL_SKILL));
 
             player.Inventory.Add(ItemFactory.CreateDefaultItem());
             player.Inventory.Add(ItemFactory.CreateDefaultItem());
@@ -234,7 +233,7 @@ namespace Zomgame
             
             EventHandler.Instance.FireEvents(TurnsPassed);
 			
-			if (player.State == Entity.EntityState.BUSY)
+			if (player.State == Creature.EntityState.BUSY)
 			{
 				foreach (Zombie z in map.MapEntities)
 				{

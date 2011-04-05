@@ -17,7 +17,7 @@ namespace Zomgame.States
         public event Action<GameState> StateCreated;
         protected Player player;
         protected Map map;
-        protected List<Entity> entities;
+        protected List<Creature> entities;
         protected ZSpriteBatch spriteBatch;
         protected SpriteFont font;
         protected Screen Screen

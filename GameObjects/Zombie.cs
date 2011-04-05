@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Zomgame.Constants;
 using Zomgame.ZombieStates;
+using System.Diagnostics;
 
 namespace Zomgame
 {
-    public class Zombie : Entity
+    public class Zombie : Creature
     {
         public Dictionary<string, ZombieState> stateList;
 		ZombieState currentState;
@@ -69,5 +70,27 @@ namespace Zomgame
 				return currentState.graphic;
 			}
 		}
+
+        public override void Attack(Creature aEnemy)
+        {
+            Trace.WriteLine("Zombie[" + Name + "] has attacked " + aEnemy.Name);
+            //for now, make it simple
+            int damage = Strength;
+            //get damage based on weapon
+           aEnemy.Health -= damage;
+            if (aEnemy.Health <= 0)
+            {
+                aEnemy.Die();     
+                //if it's a gun, make a NoiseEvent
+                //EventHandler.Instance.AddEvent(EventFactory.CreateKillEntityEvent(aEnemy));
+            }
+        }
+
+        public override void Die()
+        {
+            // add a zombie corpse to the location
+            //
+            base.Die();
+        }
     }
 }

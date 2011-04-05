@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework;
 using Zomgame.Items;
 using Zomgame.Factories;
 using Zomgame.Constants;
+using System.Diagnostics;
 
 namespace Zomgame
 {
     public class Player
-        : Entity
+        : Creature
     {
         protected Dictionary<string, Item> equipment;
 		protected Dictionary<string, Item> defaultEquipment;
@@ -16,10 +17,9 @@ namespace Zomgame
 		protected List<Item> inventory;
 		protected Weapon defaultWeapon;
 
-		public Player(Vector2 position, string imgLoc)
-			: base(position, imgLoc)
+		public Player(string imgLoc)
+			: base(imgLoc)
 		{
-			base.velocity = 1;
 			Name = "Player";
 			inventory = new List<Item>();
 			skills = new Dictionary<string, Skill>();
@@ -103,5 +103,34 @@ namespace Zomgame
 		{
 			get { return defaultEquipment; }
 		}
+
+        public override void Attack(Creature aEnemy)
+        {
+
+            Trace.WriteLine("Player has attacked " + aEnemy.Name);
+            //for now, make it simple
+            int damage = Strength;
+            //get damage based on weapon
+           damage += ((Weapon)(((Player)this).EquipmentIn(EquipmentTypes.MELEE_WEAPON))).Damage;
+           Trace.WriteLine("Player attacks zombie with " + EquipmentIn(EquipmentTypes.MELEE_WEAPON) +
+                    " for " + damage + " damage");
+           aEnemy.Health -= damage;
+            if (aEnemy.Health <= 0)
+            {
+                aEnemy.Die();
+                //if it's a gun, make a NoiseEvent
+                //EventHandler.Instance.AddEvent(EventFactory.CreateKillEntityEvent(aEnemy));
+            }
+
+        }
+
+        public override void Die()
+        {
+            // Game over man. Stat screen, eulogy, etc.
+            //
+            Trace.WriteLine("The player has technically died. Restoring health now.");
+            Health = 10;
+            //base.Die();
+        }
     }
 }

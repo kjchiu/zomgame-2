@@ -34,19 +34,19 @@ namespace Zomgame.Events
 					MapBlock b = placesToGo[0];
 					if (!placesVisited.Contains(b))
 					{
-						if (b.Entities.Count > 0)
+						if (b.CreatureInBlock != null)
 						{
 							//alert the entity(ies)
-							if (b.Entities[0] is Player)
+                            if (b.CreatureInBlock is Player)
 							{
 								//directional-based hearing? ie "You hear a noise to the south!"
 								Trace.WriteLine("You hear a loud noise!");
 							}
-							else if (b.Entities[0] is Zombie)
+                            else if (b.CreatureInBlock is Zombie)
 							{
 								//put zombie into SEARCH state
 								Trace.WriteLine("The zombie has heard a loud noise.");
-                                ((Zombie)b.Entities[0]).ChangeStateTo(ZombieStateNames.SEARCH_STATE, location);
+                                ((Zombie)b.CreatureInBlock).ChangeStateTo(ZombieStateNames.SEARCH_STATE, location);
 							}
 						}
 						placesToAdd.AddRange(OuterBlocksOf(b));

@@ -32,7 +32,7 @@ namespace Zomgame
             {
                 for (int y = 0; y < yLength; y++)
                 {
-                    map.GetBlockAt(x + xPos, y + yPos).TerrainList[0] = new Terrain("wood_floor_bmp");
+                    map.GetBlockAt(x + xPos, y + yPos).TerrainInBlock = new Terrain("wood_floor_bmp");
                 }
             }
         }

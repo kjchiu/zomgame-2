@@ -11,7 +11,7 @@ namespace Zomgame
 {
 	public class Camera
 	{
-	    protected Entity focus;
+	    protected Creature focus;
 	    protected int width;
         protected int height;
         protected int offset;
@@ -25,7 +25,7 @@ namespace Zomgame
 	    }
 
 
-        public Camera(Entity focus, int width, int height, Map nMap)
+        public Camera(Creature focus, int width, int height, Map nMap)
 	    {
 	        this.focus = focus;
 	        this.width = width;

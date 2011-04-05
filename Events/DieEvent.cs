@@ -3,9 +3,9 @@ namespace Zomgame.Events
 {
 	class DieEvent : BaseEvent
 	{
-		protected Entity dyingEntity;
+		protected Creature dyingEntity;
 
-		public DieEvent(Entity nDEntity)
+		public DieEvent(Creature nDEntity)
 		{
 			dyingEntity = nDEntity;
 		}

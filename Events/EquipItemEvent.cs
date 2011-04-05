@@ -37,7 +37,7 @@ namespace Zomgame.Events
 
 			//MESSAGE HERE
 			
-			equipper.State = Entity.EntityState.IDLE;
+			equipper.State = Creature.EntityState.IDLE;
 
 			
 		}

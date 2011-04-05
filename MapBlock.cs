@@ -8,23 +8,21 @@ namespace Zomgame {
 		Map gameMap;
 
         Coord coordinates;
-        List<Entity> entityList;
-        List<Prop> propList;
-        List<Item> itemList;
-        
-        List<Terrain> terrainList;
+       Creature iCreature;
+        Prop iProp;
+        Terrain iTerrain;
 
+        List<Item> itemList;
         
         public MapBlock(Map map) : this(new Coord(0,0), map) { }
 
         public MapBlock(Coord nCoordinates, Map map) {
             Coordinates = nCoordinates;
 			gameMap = map;
-            entityList = new List<Entity>();
-            propList = new List<Prop>();
+            iCreature = null;
+            iProp = null;
             itemList = new List<Item>();
-            terrainList = new List<Terrain>();
-            terrainList.Add(new Terrain());
+            iTerrain = new Terrain();
         }        
 
         public Coord Coordinates {
@@ -33,10 +31,10 @@ namespace Zomgame {
         }
 
         public void AddObject(GameObject gObject){
-            if (gObject is Entity) {
-                entityList.Add((Entity)gObject);
+            if (gObject is Creature) {
+                iCreature = (Creature)gObject;
             } else if (gObject is Prop) {
-                propList.Add((Prop)gObject);
+                iProp = (Prop)gObject;
             } else if (gObject is Item) {
                 itemList.Add((Item)gObject);
             }
@@ -44,10 +42,12 @@ namespace Zomgame {
         }
 
         public void RemoveObject(GameObject gObject) {
-            if (gObject is Entity) {
-                entityList.Remove((Entity)gObject);
-            } else if (gObject is Prop) {
-                propList.Remove((Prop)gObject);
+            if (gObject is Creature && CreatureInBlock.Equals(gObject)) {
+                iCreature = null;
+            }
+            else if (gObject is Prop && PropInBlock.Equals(gObject))
+            {
+                iProp = null;
             } else if (gObject is Item) {
                 itemList.Remove((Item)gObject);
             }
@@ -73,43 +73,52 @@ namespace Zomgame {
         {
             get
             {
-                if (entityList.Count > 0)
-                    return entityList[entityList.Count - 1].Graphic;
+                if (CreatureInBlock != null)
+                    return CreatureInBlock.Graphic;
                 else if (itemList.Count > 0)
 					return itemList[itemList.Count - 1].Graphic;
-				else if (propList.Count > 0)
-					return propList[propList.Count - 1].Graphic;
+				else if (PropInBlock != null)
+					return PropInBlock.Graphic;
 				else
-					return terrainList[terrainList.Count - 1].Graphic;
+					return TerrainInBlock.Graphic;
             }
+        }
+
+        public Creature CreatureInBlock
+        {
+            get { return iCreature; }
+        }
+
+        public Prop PropInBlock
+        {
+            get { return iProp; }
+        }
+
+        public Terrain TerrainInBlock
+        {
+            get { return iTerrain; }
+            set { iTerrain = value; }
         }
 
 		public Boolean Passable
 		{
 			get
 			{
-				foreach (Prop p in Props)
-				{
-					if (!p.Passable)
-					{
+                if (CreatureInBlock != null)
+                {
+                    return false;
+                }
+				if (PropInBlock != null && !PropInBlock.Passable)
+			    {
 						return false;
-					}
 				}
+				
+                return true;
 
-				return true;
-
+				
 			}
 		}
-		public List<Prop> Props
-		{
-			get { return propList; }
-		}
-
-		public List<Entity> Entities
-		{
-			get { return entityList; }
-		}
-
+		
 		public List<Item> Items
 		{
 			get { return itemList; }
@@ -138,21 +147,11 @@ namespace Zomgame {
 		{
 			get
 			{
-				if (Props.Count > 0)
-				{
-					return Props[0].SeeThrough;
-				}
-				return true;
+				return iProp.SeeThrough;
 			}
 		}
 
-        public List<Terrain> TerrainList
-        {
-            get { return terrainList; }
-            set { terrainList = value; }
-        }
-
-		public override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
 			if (obj is MapBlock)
 			{

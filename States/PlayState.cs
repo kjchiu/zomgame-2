@@ -79,22 +79,22 @@ namespace Zomgame.States
                 if (input.Consume(KeyBindings.UP))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
                 }
                 else if (input.Consume(KeyBindings.DOWN))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
                 }
                 else if (input.Consume(KeyBindings.LEFT))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
                 }
                 else if (input.Consume(KeyBindings.RIGHT))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
                 }
             }
             else if (input.Consume(Keys.Escape)){
