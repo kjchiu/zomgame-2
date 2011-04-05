@@ -34,6 +34,8 @@ namespace Zomgame
 		public static Keys CLOSE_INV = Keys.I;
 		public static Keys DROP_ITEM = Keys.D;
 
+        public static Keys CONFIRM = Keys.Enter;
+
 		//Note: multiple-key bindings ALWAYS assume that the first key is the 'modifier' ie ctrl/alt/shift
 		//may not use these
 		public static Keys[] ATTACK_UP = new Keys[] { Keys.LeftControl, Keys.Up };

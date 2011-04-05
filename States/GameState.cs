@@ -7,6 +7,7 @@ using Zomgame.Events;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Zomgame.UI;
+using System.Threading;
 
 namespace Zomgame.States
 {
@@ -19,7 +20,7 @@ namespace Zomgame.States
         protected Map map;
         protected List<Entity> entities;
         protected ZSpriteBatch spriteBatch;
-        protected SpriteFont font;
+        protected SpriteFont font;        
         protected Screen Screen
         {
             get;
@@ -27,7 +28,13 @@ namespace Zomgame.States
         }
 
 
-        protected GameState(Game game, Screen screen)
+        public AutoResetEvent Semaphore
+        {
+            get;
+            private set;
+        }
+
+        protected GameState(Game game)
         {
             this.spriteBatch = game.SpriteBatch;
             this.player = game.Player;
@@ -35,20 +42,36 @@ namespace Zomgame.States
             this.entities = game.Entities;
             this.Exit = game.Exit;
             this.font = game.Font;
-            Screen = screen;            
+            Screen = new Screen(this);
+            Semaphore = new AutoResetEvent(false);
         }
 
-        protected GameState(Game game)
-            : this(game, new Screen())
-        {
-        }
 
         
 
         public void Update(GameTime gameTime)
         {
-            Screen.Update(gameTime, InputHandler.Instance);
-            UpdateState(gameTime, InputHandler.Instance);            
+                Screen.UpdateAsync(gameTime, InputHandler.Instance);
+                Semaphore.WaitOne();
+                ThreadPool.QueueUserWorkItem(
+                (state) =>
+                {
+                    try
+                    {
+                        // this is going to cause massive problems until we can clone input state
+                        // wtb c++ 0x 
+                        UpdateState(gameTime, InputHandler.Instance);
+                    }
+                    finally
+                    {
+                        ((AutoResetEvent)state).Set();
+                    }
+                }
+                , Semaphore);
+                UpdateState(gameTime, InputHandler.Instance);
+                Semaphore.WaitOne();
+            
+            
         }
         public void Draw(GameTime gameTime)
         {
@@ -78,10 +101,5 @@ namespace Zomgame.States
 		{
 			return InputHandler.Instance.IsKeyHeld(key);
 		}
-
-
-
-
-
     }
 }

@@ -55,7 +55,7 @@ namespace Zomgame.UI
         {
         }
 
-        public void Close()
+        public virtual void Close()
         {
             Screen.RemovePanel(this);
         }

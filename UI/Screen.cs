@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Zomgame.States;
+using System.Threading;
 
 namespace Zomgame.UI
 {
@@ -13,9 +15,19 @@ namespace Zomgame.UI
     public class Screen
     {
         ICollection<Panel> panels;
-        ICollection<InteractivePanel> interactivePanels;
-        ICollection<Panel> purgeList;
+        ICollection<InteractivePanel> interactivePanels;        
+        ICollection<InteractivePanel> dialogs;
 
+        ICollection<Panel> panelPurgeList;
+        ICollection<InteractivePanel> dialogPurgeList;
+
+        
+
+        internal GameState GameState
+        {
+            get;
+            private set;
+        }
         public IEnumerable<Panel> Panels
         {
             get
@@ -32,13 +44,20 @@ namespace Zomgame.UI
             }
         }
 
-        public Screen()
+        public Screen(GameState state)
         {
             panels = new List<Panel>();
             interactivePanels = new LinkedList<InteractivePanel>();
-            purgeList = new LinkedList<Panel>();
+            panelPurgeList = new LinkedList<Panel>();
+            dialogs = new LinkedList<InteractivePanel>();
+            dialogPurgeList = new List<InteractivePanel>();
+            GameState = state;
         }
 
+        public void Bind(GameState state)
+        {
+            GameState = state;
+        }
         public void Draw(GameTime gameTime, ZSpriteBatch spriteBatch)
         {
             foreach (var panel in Panels)
@@ -47,26 +66,52 @@ namespace Zomgame.UI
             }            
         }
 
+        public void UpdateAsync(GameTime gameTime, InputHandler input)
+        {            
+            
+            ThreadPool.QueueUserWorkItem(
+                (state) =>
+                {
+                    try
+                    {
+                        Update(gameTime, input);
+                    }
+                    finally
+                    {
+                        ((AutoResetEvent)state).Set();
+                    }
+                }
+                , GameState.Semaphore);
+        }
+
         public void Update(GameTime gameTime, InputHandler input)
         {
-            foreach(var panel in interactivePanels)
+            foreach (var panel in interactivePanels)
             {
                 panel.Update(gameTime, input);
             }
             try
             {
-                foreach (var panel in purgeList)
+                foreach (var panel in panelPurgeList)
                 {
                     panels.Remove(panel);
                     var interactivePanel = panel as InteractivePanel;
                     if (interactivePanels != null) interactivePanels.Remove(interactivePanel);
+                }
+                foreach (var dialog in dialogPurgeList)
+                {
+                    dialogs.Remove(dialog);
                 }
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e);
             }
-            purgeList.Clear();
+            finally
+            {
+                panelPurgeList.Clear();
+                dialogPurgeList.Clear();
+            }
         }
 
         public void AddPanel(Panel panel)
@@ -83,7 +128,17 @@ namespace Zomgame.UI
 
         public void RemovePanel(Panel panel)
         {
-            purgeList.Add(panel);
+            panelPurgeList.Add(panel);
+        }
+
+        public void AddDialog(InteractivePanel dialog)
+        {
+            dialogs.Add(dialog);
+        }
+
+        public void RemoveDialog(InteractivePanel dialog)
+        {
+            
         }
     }
 }

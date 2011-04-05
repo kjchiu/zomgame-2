@@ -227,12 +227,14 @@
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\ItemDetailsState.cs" />
     <Compile Include="UI\Brush.cs" />
+    <Compile Include="UI\Dialog.cs" />
     <Compile Include="UI\InteractivePanel.cs" />
     <Compile Include="UI\InventoryPanel.cs" />
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\Screen.cs" />
     <Compile Include="UI\TextBox.cs" />
     <Compile Include="UI\TextReader.cs" />
+    <Compile Include="UI\YesNoDialog.cs" />
     <Compile Include="ZombieStates\HuntState.cs" />
     <Compile Include="InputHandler.cs" />
     <Compile Include="Items\Item.cs" />

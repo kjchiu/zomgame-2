@@ -7,7 +7,7 @@ using Zomgame.Events;
 
 namespace Zomgame.UI
 {
-    abstract class InteractivePanel : Panel
+    public abstract class InteractivePanel : Panel
     {
         public override bool HandlesInput
         {
@@ -23,7 +23,7 @@ namespace Zomgame.UI
       
     }
 
-    abstract class InteractivePanel<T> : InteractivePanel
+    public abstract class InteractivePanel<T> : InteractivePanel
     {
 
         public InteractivePanel(int x, int y, int width, int height, Screen screen)

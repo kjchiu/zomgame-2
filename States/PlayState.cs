@@ -132,6 +132,7 @@ namespace Zomgame.States
                 //AddState(StateFactory.CreateInventoryState());
                 Screen.AddPanel(new InventoryPanel(0, 0, 200, 200, Screen, player));
             }
+            // DEBUG EVENTS
 			else if (input.Consume(Keys.N))
 			{
 				EventHandler.Instance.AddEvent(EventFactory.CreateMakeNoiseEvent(map.GetBlockAt(player.Location.Coordinates), 50));
@@ -144,6 +145,13 @@ namespace Zomgame.States
 			{
 				Trace.WriteLine("Player is equipped with " + player.EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name);
 			}
+            else if (input.Consume(Keys.OemTilde))
+            {
+                var dialog = new YesNoDialog(Screen, "omg yes");
+                var result = dialog.Result;
+                Trace.WriteLine(dialog.Result);
+
+            }
         }
 
         public override void DrawState(GameTime time)
