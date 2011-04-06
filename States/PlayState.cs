@@ -79,12 +79,12 @@ namespace Zomgame.States
                 if (input.Consume(KeyBindings.UP))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1);
-                    player.Move(location);
-                    //EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
+                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
                 }
                 else if (input.Consume(KeyBindings.DOWN))
                 {
                     MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1);
+
                     EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.PropInBlock, player));
                 }
                 else if (input.Consume(KeyBindings.LEFT))
@@ -103,19 +103,19 @@ namespace Zomgame.States
 			}
 			else if (input.Consume(KeyBindings.LEFT))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y)));
+                player.Move(map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y));
             }
 			else if (input.Consume(KeyBindings.RIGHT))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y)));
+                player.Move(map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y));
             }
 			else if (input.Consume(KeyBindings.DOWN))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1)));
+                player.Move(map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1));
             }
 			else if (input.Consume(KeyBindings.UP))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1)));
+				player.Move(map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1));
             }
 			else if (input.Consume(KeyBindings.PICK_UP))
 			{

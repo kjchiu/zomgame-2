@@ -180,12 +180,9 @@ namespace Zomgame
             player.Inventory.Add(sword2);
             player.Inventory.Add(WeaponFactory.CreateSword());
 
-
-
             map = new Map(80, 80);
-			map.GetBlockAt(5, 5).AddObject(player);
-            MapGenerator.map = map;
-       
+			map.AddObjectAt(player, 5, 5);
+
             Door d = new Door("door_closed_bmp");
             d.Interaction = new UseDoorPAbility(d);
             map.GetBlockAt(5, 10).AddObject(d);
@@ -221,14 +218,6 @@ namespace Zomgame
             
             EventHandler.Instance.FireEvents(TurnsPassed);
 			
-			if (player.State == Creature.EntityState.BUSY)
-			{
-				foreach (Zombie z in map.MapEntities)
-				{
-					z.Update();
-				}
-				++TurnsPassed;
-			}
             base.Update(gameTime);
            
         }
