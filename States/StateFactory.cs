@@ -19,18 +19,10 @@ namespace Zomgame.States
             return new ItemDetailsState(game, exItem);
         }
 
-        public static GameState CreateInventoryState()
-        {
-            return new InventoryState(game);
-        }
-
         public static PlayState CreatePlayState(Camera c)
         {
 			PlayState ps = new PlayState(game);
 			return ps;
         }
-
-
-
     }
 }
