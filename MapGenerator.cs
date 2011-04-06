@@ -56,7 +56,7 @@ namespace Zomgame
 					if (map.GetBlockAt(x, y).Passable)
 					{
 						zomPlaced = true;
-						map.AddObjectAt(EntityFactory.CreateZombie(p), x, y); 
+					//	map.AddObjectAt(EntityFactory.CreateZombie(p), x, y); 
 					}
 				}
 			}

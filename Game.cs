@@ -185,29 +185,17 @@ namespace Zomgame
             map = new Map(80, 80);
 			map.GetBlockAt(5, 5).AddObject(player);
             MapGenerator.map = map;
-            MapGenerator.CreateWoodenBuilding(10, 10, 30, 30);
-
-            Light l = new Light(80, Color.Blue);
-            map.AddObjectAt(l, 21, 23);
-
+       
             Door d = new Door("door_closed_bmp");
             d.Interaction = new UseDoorPAbility(d);
             map.GetBlockAt(5, 10).AddObject(d);
 
 			camera = new Camera(player, Game.VISBLE_MAP_WIDTH, Game.VISBLE_MAP_HEIGHT, map);
 
-			Zombie z = EntityFactory.CreateZombie(player);
-			z.ChangeStateTo(ZombieStateNames.SEARCH_STATE,player.Location);
-			entities.Add(z);
-			map.GetBlockAt(6, 6).AddObject(z);
-			MapGenerator.PutZombiesEverywhere(100, player);
-			
 			Item item = new Item("item_bmp");
-			
 			map.GetBlockAt(3, 3).AddObject(item);
 
-            MessageBus.Instance.AddMessage(new DominatingMessage(player, z, item));
-		}
+       }
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload

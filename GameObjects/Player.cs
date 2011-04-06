@@ -124,6 +124,14 @@ namespace Zomgame
 
         }
 
+        public override void Move(MapBlock aDestination)
+        {
+            // check for objects here, etc.
+            //
+            iMove(this, aDestination);
+   
+        }
+
         public override void Die()
         {
             // Game over man. Stat screen, eulogy, etc.

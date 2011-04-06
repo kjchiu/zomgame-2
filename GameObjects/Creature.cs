@@ -16,6 +16,7 @@ namespace Zomgame
         private int iStrength;
 
         protected EntityState iEntityState;
+        protected Map.MoveObjectToDel iMove;
 
         /// <summary>
 		/// Actual initialization constructor.
@@ -28,6 +29,11 @@ namespace Zomgame
 			Name = "Entity-" + ThisID;
 			Health = 10;
             Strength = 10;
+        }
+
+        public Map.MoveObjectToDel MoveTo
+        {
+            set { iMove = value; }
         }
 
         public int Strength
@@ -56,12 +62,13 @@ namespace Zomgame
         {
         }
 
+        public virtual void Attack(Prop aProp)
+        {}
+
         public virtual void Move(MapBlock aDestination)
         {
-            // Check to see if the mapblock is clear
-            //
-
         }
+
  
         public virtual void Die()
         {

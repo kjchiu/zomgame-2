@@ -147,7 +147,7 @@ namespace Zomgame {
 		{
 			get
 			{
-				return iProp.SeeThrough;
+				return (iProp == null? true : iProp.SeeThrough);
 			}
 		}
 

@@ -23,6 +23,7 @@ namespace Zomgame {
 
         public delegate void RemoveObjectDel(GameObject aGObject);
         public delegate void AddObjectAtDel(GameObject aGObject, int aX, int aY);
+        public delegate void MoveObjectToDel(GameObject aGameObject, MapBlock aMapBlock);
         
         #region " Properties "
         public int Width
@@ -83,7 +84,13 @@ namespace Zomgame {
             }
             return new MapBlock(new Coord(-1, -1), this);
         }
-        
+
+        public void MoveObject(GameObject aGameObject, MapBlock aMapBlock)
+        {
+            aGameObject.Location.RemoveObject(aGameObject);
+            AddObjectAt(aGameObject, aMapBlock.Coordinates.X, aMapBlock.Coordinates.Y);
+        }
+
 		public void AddObjectAt(GameObject gObject, int x, int y)
 		{
             gObject.AddObjectAt = new AddObjectAtDel(AddObjectAt);
@@ -91,8 +98,10 @@ namespace Zomgame {
 
 			if (gObject is Creature)
 			{
-				mapBlocks[x,y].AddObject((Creature)gObject);
-				mapEntities.Add((Creature)gObject);
+                Creature lCreature = (Creature)gObject;
+				mapBlocks[x,y].AddObject(lCreature);
+                mapEntities.Add(lCreature);
+                lCreature.MoveTo = new MoveObjectToDel(MoveObject);
 			}
 			else if (gObject is Prop)
 			{
@@ -109,6 +118,12 @@ namespace Zomgame {
             }
 			gObject.Location = mapBlocks[x,y];
 		}
+
+        public void RemoveObject(Creature aCreature)
+        {
+            MapEntities.Remove(aCreature);
+            RemoveObject((GameObject)aCreature);
+        }
 
         public void RemoveObject(GameObject aGameObject)
         {
@@ -131,31 +146,33 @@ namespace Zomgame {
         /// </summary>
         public void UpdateLightMap()
         {
-            foreach (Light light in lights)
+            if (false)
             {
-                Coord coord;
-                for (int y = 0; y < height; y++)
+                foreach (Light light in lights)
                 {
-                    for (int x = 0; x < width; x++)
+                    Coord coord;
+                    for (int y = 0; y < height; y++)
                     {
-                        coord = new Coord(x, y);
-                        if (IsInMap(coord))
+                        for (int x = 0; x < width; x++)
                         {
-                            CreateLightRay(light.Location.Coordinates, coord, light);
+                            coord = new Coord(x, y);
+                            if (IsInMap(coord))
+                            {
+                                CreateLightRay(light.Location.Coordinates, coord, light);
+                            }
                         }
                     }
+
+                    lightMap[light.Location.Coordinates.X, light.Location.Coordinates.Y] =
+
+                        //(float)light.LightColor.G * ((float)light.Strength / 100)
+                        //red strength = (float)light.LightColor.R * (light.Strength / 5 / 255) * light.Strength / 5
+
+                        new Color((byte)(light.LightColor.R * light.Strength / 100),
+                                  (byte)(light.LightColor.G * light.Strength / 100),
+                                  (byte)(light.LightColor.B * light.Strength / 100));
                 }
-				
-                lightMap[light.Location.Coordinates.X, light.Location.Coordinates.Y] =
-
-					//(float)light.LightColor.G * ((float)light.Strength / 100)
-					//red strength = (float)light.LightColor.R * (light.Strength / 5 / 255) * light.Strength / 5
-
-					new Color((byte)(light.LightColor.R * light.Strength/100),
-						      (byte)(light.LightColor.G * light.Strength/100),
-						      (byte)(light.LightColor.B * light.Strength/100));
             }
-            
         }
 
 		public List<Coord> GetRay(Coord start, Coord target) 
