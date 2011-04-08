@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Constants\SkillNames.cs" />
     <Compile Include="GameObjects\Player.cs" />
+    <Compile Include="GameObjects\Props\IInteractable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />

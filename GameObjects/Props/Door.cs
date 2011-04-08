@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Zomgame.GameObjects.Props;
 
 namespace Zomgame.Props
 {
-    class Door : Prop
+    class Door : Prop, IInteractable
     {
         protected bool opened;
         private Sprite openedGraphic;
@@ -44,6 +45,11 @@ namespace Zomgame.Props
                 }
                 return base.Graphic;
             }
+        }
+
+        public void Interact()
+        {
+            ToggleOpen();
         }
     }
 }

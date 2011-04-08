@@ -180,7 +180,7 @@ namespace Zomgame
             player.Inventory.Add(sword2);
             player.Inventory.Add(WeaponFactory.CreateSword());
 
-            map = new Map(80, 80);
+            map = new Map(30, 30);
 			map.AddObjectAt(player, 5, 5);
 
             Door d = new Door("door_closed_bmp");

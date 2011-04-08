@@ -14,7 +14,7 @@ namespace Zomgame {
 
         List<Item> itemList;
         
-        public MapBlock(Map map) : this(new Coord(0,0), map) { }
+        public MapBlock(Map map) : this(new Coord(-1,-1), map) { }
 
         public MapBlock(Coord nCoordinates, Map map) {
             Coordinates = nCoordinates;

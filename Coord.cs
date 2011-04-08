@@ -70,5 +70,10 @@ namespace Zomgame
         {
             return base.GetHashCode();
         }
+
+        public Coord this[int x, int y]
+        {
+            get { return new Coord(X + x, Y + y); }
+        }
     }
 }

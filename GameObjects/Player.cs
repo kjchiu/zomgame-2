@@ -128,7 +128,10 @@ namespace Zomgame
         {
             // check for objects here, etc.
             //
-            iMove(this, aDestination);
+            if (aDestination.Passable)
+            {
+                iMove(this, aDestination);
+            }
    
         }
 

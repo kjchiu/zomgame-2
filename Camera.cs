@@ -109,7 +109,7 @@ namespace Zomgame
 					//player.Location.Coordinates.X + x, y);
 					//Coord coord = new Coord(focus.Location.Coordinates.X + x - Game.VISIBLE_MAP_OFFSET, focus.Location.Coordinates.Y + y - Game.VISIBLE_MAP_OFFSET);
                     Coord coord = this[x,y];
-                    int r = GameMap.LightMap[x, y].R;
+                    //int r = GameMap.LightMap[x, y].R;
 					if (map.IsInMap(coord) && visiblePositions[x, y])
 					{
 						Texture2D texture = map.GetBlockAt(coord).Graphic.Texture;
