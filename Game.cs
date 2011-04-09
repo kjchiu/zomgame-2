@@ -20,6 +20,7 @@ using Zomgame.Abilities;
 using Zomgame.Items;
 using Graphics;
 using Zomgame.Utility;
+using Zomgame.GameObjects.Props;
 
 namespace Zomgame
 {
@@ -180,12 +181,22 @@ namespace Zomgame
             player.Inventory.Add(sword2);
             player.Inventory.Add(WeaponFactory.CreateSword());
 
+            
+            
             map = new Map(30, 30);
 			map.AddObjectAt(player, 5, 5);
+            Zombie lZack = new Zombie(player, map);
+            map.AddObjectAt(lZack, 10, 10);
 
             Door d = new Door("door_closed_bmp");
             d.Interaction = new UseDoorPAbility(d);
             map.GetBlockAt(5, 10).AddObject(d);
+
+            ToggleSwitch lSwitch = new ToggleSwitch();
+            lSwitch.ConnectedProp = d;
+            lSwitch.OnGraphic = new Sprite("toggle_off");
+            lSwitch.OffGraphic = new Sprite("toggle_on");
+            map.AddObjectAt(lSwitch, 7, 7);
 
 			camera = new Camera(player, Game.VISBLE_MAP_WIDTH, Game.VISBLE_MAP_HEIGHT, map);
 

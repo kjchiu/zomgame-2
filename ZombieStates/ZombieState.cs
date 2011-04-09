@@ -15,47 +15,23 @@ namespace Zomgame
 		public Player player; // needed to determine stuff like if the zombie sees the player and stuff 
 		public Sprite graphic;
         protected Random rand;
+        protected Map iMap;
 
-		public ZombieState(Zombie aZombie, Player nPlayer){
+		public ZombieState(Zombie aZombie, Player nPlayer, Map aMap){
 			zombie = aZombie;
 			player = nPlayer;
             rand = new Random(zombie.ThisID);
+            iMap = aMap;
 		}
 
 		public void MoveInRandomDirection()
 		{
-			
-			int direction = rand.Next(0, 15);
 
-			switch (direction)
-			{
-				case 0: //up
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X, zombie.Location.Coordinates.Y - 1)));
-					break;
-				case 1: //up-right
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X + 1, zombie.Location.Coordinates.Y - 1)));
-					break;
-				case 2: //right
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X + 1, zombie.Location.Coordinates.Y)));
-					break;
-				case 3: //down-right
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X + 1, zombie.Location.Coordinates.Y + 1)));
-					break;
-				case 4: //down
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X, zombie.Location.Coordinates.Y + 1)));
-					break;
-				case 5: //down-left
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X - 1, zombie.Location.Coordinates.Y + 1)));
-					break;
-				case 6: //left
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X - 1, zombie.Location.Coordinates.Y)));
-					break;
-				case 7: //up-left
-					EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(zombie, zombie.Location.GameMap.GetBlockAt(zombie.Location.Coordinates.X - 1, zombie.Location.Coordinates.Y - 1)));
-					break;
-				default:
-					break;
-			}
+            int lXDiff = rand.Next(-1, 1);
+            int lYDiff = rand.Next(-1, 1);
+
+            zombie.Move(iMap.GetBlockAt(zombie.Location.Coordinates[lXDiff, lYDiff]));
+           
 		}
 
 		public List<PathBlock> AStarPath(MapBlock from, MapBlock to, bool willBreakThroughStuff)

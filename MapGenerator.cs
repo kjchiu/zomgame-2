@@ -6,7 +6,7 @@ using Zomgame.Factories;
 
 namespace Zomgame
 {
-	class MapGenerator
+	static class MapGenerator
 	{
         public static Map map; 
 

@@ -85,9 +85,6 @@ namespace Zomgame
 			return false;
 		}
 
-	
-
-
 		public List<Item> Inventory
 		{
 			get { return inventory; }
@@ -112,7 +109,7 @@ namespace Zomgame
             int damage = Strength;
             //get damage based on weapon
            damage += ((Weapon)(((Player)this).EquipmentIn(EquipmentTypes.MELEE_WEAPON))).Damage;
-           Trace.WriteLine("Player attacks zombie with " + EquipmentIn(EquipmentTypes.MELEE_WEAPON) +
+           Trace.WriteLine("Player attacks zombie with " + EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name +
                     " for " + damage + " damage");
            aEnemy.Health -= damage;
             if (aEnemy.Health <= 0)
@@ -130,7 +127,12 @@ namespace Zomgame
             //
             if (aDestination.Passable)
             {
-                iMove(this, aDestination);
+                iMove(this, aDestination.Coordinates);
+                return;
+            }
+            if (aDestination.CreatureInBlock is Zombie)
+            {
+                Attack(aDestination.CreatureInBlock);
             }
    
         }

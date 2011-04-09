@@ -18,13 +18,13 @@ namespace Zomgame {
         MapBlock[,] mapBlocks;
         Color[,] lightMap;
         List<Light> lights; //required in order to check all lights
-        List<Creature> mapEntities;
+        List<Creature> mapZombies;
 
         int width, height;
 
         public delegate void RemoveObjectDel(GameObject aGObject);
         public delegate void AddObjectAtDel(GameObject aGObject, int aX, int aY);
-        public delegate void MoveObjectToDel(GameObject aGameObject, MapBlock aMapBlock);
+        public delegate void MoveObjectToDel(GameObject aGameObject, Coord aCoord);
 
         #region " Properties "
         public int Width
@@ -44,7 +44,7 @@ namespace Zomgame {
 
         public List<Creature> MapEntities
         {
-            get { return mapEntities; }
+            get { return mapZombies; }
         }
         #endregion
 
@@ -65,7 +65,7 @@ namespace Zomgame {
                     lightMap[i, j] = Color.Gray;
                 }
             }
-            mapEntities = new List<Creature>();
+            mapZombies = new List<Creature>();
         }
 
         public void SetBlockAt(MapBlock nBlock, int x, int y)
@@ -95,12 +95,12 @@ namespace Zomgame {
             return new MapBlock(this);
         }
 
-        public void MoveObject(GameObject aGameObject, MapBlock aMapBlock)
+        public void MoveObject(GameObject aGameObject, Coord aCoord)
         {
-            if (this.IsInMap(aMapBlock.Coordinates))
+            if (this.IsInMap(aCoord))
             {
                 aGameObject.Location.RemoveObject(aGameObject);
-                AddObjectAt(aGameObject, aMapBlock.Coordinates.X, aMapBlock.Coordinates.Y);
+                AddObjectAt(aGameObject, aCoord.X, aCoord.Y);
             }
         }
 
@@ -113,7 +113,10 @@ namespace Zomgame {
             {
                 Creature lCreature = (Creature)gObject;
                 mapBlocks[x, y].AddObject(lCreature);
-                mapEntities.Add(lCreature);
+                if (gObject is Zombie)
+                {
+                    mapZombies.Add(lCreature);
+                }
                 lCreature.MoveTo = new MoveObjectToDel(MoveObject);
             }
             else if (gObject is Prop)

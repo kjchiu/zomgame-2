@@ -13,13 +13,13 @@ namespace Zomgame
 		ZombieState currentState;
 
         
-        public Zombie(Player p) : base("null_bmp")
+        public Zombie(Player p, Map aMap) : base("null_bmp")
         {
 			Name = "Zombie-" + ThisID;
             stateList = new Dictionary<string, ZombieState>();
-            stateList.Add(ZombieStateNames.HUNT_STATE, new HuntState(this, p));
-            stateList.Add(ZombieStateNames.SEARCH_STATE, new SearchState(this, p));
-            stateList.Add(ZombieStateNames.WANDER_STATE, new WanderState(this, p));
+            stateList.Add(ZombieStateNames.HUNT_STATE, new HuntState(this, p, aMap));
+            stateList.Add(ZombieStateNames.SEARCH_STATE, new SearchState(this, p, aMap));
+            stateList.Add(ZombieStateNames.WANDER_STATE, new WanderState(this, p, aMap));
             ChangeStateTo(ZombieStateNames.WANDER_STATE);
         }
 

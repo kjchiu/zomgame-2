@@ -115,7 +115,7 @@ namespace Zomgame.States
             }
 			else if (input.Consume(KeyBindings.UP))
             {
-				player.Move(map.GetBlockAt(player.Location.Coordinates[0, -1]));
+				player.Move(map.GetBlockAt(player.Location.Coordinates[0, 0]));
             }
 			else if (input.Consume(KeyBindings.PICK_UP))
 			{
@@ -145,6 +145,8 @@ namespace Zomgame.States
 			{
 				Trace.WriteLine("Player is equipped with " + player.EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name);
 			}
+
+            
         }
 
         private void InteractWithBlock(MapBlock lInteractBlock)
