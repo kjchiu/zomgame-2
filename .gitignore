@@ -15,5 +15,5 @@ deploy/*
 *.vsp
 *.cachefile
 *.psess
-
+*.orig
 

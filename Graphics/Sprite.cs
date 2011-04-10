@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework.Graphics;
-using Graphics;
+using Zomgame.Graphics;
 namespace Zomgame
 {
 	public class Sprite
@@ -11,7 +11,7 @@ namespace Zomgame
 		public Sprite(string nImgLoc)
 		{
 			imgLoc = nImgLoc;
-			texture = GraphicsDispenser.getTexture(nImgLoc);
+			texture = GraphicsDispenser.GetTexture(nImgLoc);
 		}
 
 		public string ImgLoc

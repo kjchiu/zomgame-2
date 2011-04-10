@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Graphics;
+using Zomgame.Graphics;
 
 namespace Zomgame
 {
@@ -56,7 +56,7 @@ namespace Zomgame
 
 
             //this.Draw(GraphicsDispenser.getTexture("pixel_bmp"), start, new Vector2(a.X + (b - a).Length, a.Y)
-            this.Draw(GraphicsDispenser.getTexture("pixel_bmp")
+            this.Draw(GraphicsDispenser.GetTexture("pixel_bmp")
                 //, new Rectangle(start.X, start.Y, (int)((end - start).Length()), start.Y)
                 , new Rectangle((int)start.X
                     , (int)start.Y

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
-using Graphics;
+using Zomgame.Graphics;
 
 namespace Zomgame
 {
@@ -127,7 +127,7 @@ namespace Zomgame
 					}
 					else
 					{
-						spriteBatch.Draw(GraphicsDispenser.getTexture("void_bmp"),
+						spriteBatch.Draw(GraphicsDispenser.GetTexture("void_bmp"),
 										 new Rectangle(x * Game.MAP_BLOCK_SIZE, y * Game.MAP_BLOCK_SIZE, Game.MAP_BLOCK_SIZE, Game.MAP_BLOCK_SIZE),
 										 Color.White);
 					}
