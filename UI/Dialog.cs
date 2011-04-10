@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Microsoft.Xna.Framework;
+using Zomgame.Graphics;
 
 namespace Zomgame.UI
 {
@@ -41,7 +42,7 @@ namespace Zomgame.UI
 
         public override void DrawContent(Brush brush)
         {
-            brush.DrawString(GraphicsDispenser.getFont("default"), Message, new Vector2(5, 5), Color.Pink); 
+            brush.DrawString(GraphicsDispenser.GetFont("default"), Message, new Vector2(5, 5), Color.Pink); 
         }
 
 

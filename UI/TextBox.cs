@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Graphics;
+using Zomgame.Graphics;
 
 namespace Zomgame.UI
 {
@@ -23,7 +23,7 @@ namespace Zomgame.UI
         }
 
         public TextBox(int x, int y, int width, int height, Screen screen, IEnumerable<string> _messages)
-            : this(x, y, width, height, screen, _messages, GraphicsDispenser.getFont("Default"), Color.Gold)
+            : this(x, y, width, height, screen, _messages, GraphicsDispenser.GetFont("Default"), Color.Gold)
         {
             
         }
