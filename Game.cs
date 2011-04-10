@@ -18,7 +18,7 @@ using Zomgame.Messaging.Messages;
 using Zomgame.Props;
 using Zomgame.Abilities;
 using Zomgame.Items;
-using Graphics;
+using Zomgame.Graphics;
 using Zomgame.Utility;
 using Zomgame.GameObjects.Props;
 
@@ -157,7 +157,7 @@ namespace Zomgame
             GraphicsDispenser.LoadTextureData(Content);
             GraphicsDispenser.LoadFontData(Content);
 
-            MessageLog.Font = GraphicsDispenser.getFont("MessageBarFont") ;
+            MessageLog.Font = GraphicsDispenser.GetFont("MessageBarFont") ;
 			LoadData();
             StateFactory.Init(this);
             this.AddState(StateFactory.CreatePlayState(camera));

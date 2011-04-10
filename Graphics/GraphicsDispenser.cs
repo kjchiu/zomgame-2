@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 
-namespace Graphics
+namespace Zomgame.Graphics
 {
     class GraphicsDispenser
     {
@@ -55,7 +55,7 @@ namespace Graphics
             {
                 try
                 {
-                    GraphicsDispenser.addTexture(fi.Name.Remove(fi.Name.Length - 4), Content.Load<Texture2D>(fi.Name.Remove(fi.Name.Length - 4)));
+                    GraphicsDispenser.AddTexture(fi.Name.Remove(fi.Name.Length - 4), Content.Load<Texture2D>(fi.Name.Remove(fi.Name.Length - 4)));
                 }
                 catch (ContentLoadException eCLE)
                 {
@@ -74,7 +74,7 @@ namespace Graphics
            
             foreach (FileInfo fi in di.GetFiles("Font/*.xnb", SearchOption.AllDirectories))
             {
-                addFont(fi.Name.Remove(fi.Name.Length - 4), Content.Load<SpriteFont>("Font/" + fi.Name.Remove(fi.Name.Length - 4)));
+                AddFont(fi.Name.Remove(fi.Name.Length - 4), Content.Load<SpriteFont>("Font/" + fi.Name.Remove(fi.Name.Length - 4)));
             }
 
         }
@@ -83,9 +83,9 @@ namespace Graphics
         /// Used to add a texture that has not been loaded into the program yet. Creates a space so that other objects can use the texture eventually.
         /// </summary>
         /// <param name="_textureName">The name of the texture</param>
-        public static void addNullTexture(string _textureName)
+        public static void AddNullTexture(string _textureName)
         {
-            addTexture(_textureName, null);
+            AddTexture(_textureName, null);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Graphics
         /// </summary>
         /// <param name="_textureName">The name of the texture. Typically the filename minus the filetype</param>
         /// <param name="_texture">The texture reference</param>
-        public static void addTexture(string _textureName, Texture2D _texture)
+        public static void AddTexture(string _textureName, Texture2D _texture)
         {
             if (!textures.ContainsKey(_textureName))
             {
@@ -106,9 +106,9 @@ namespace Graphics
         /// </summary>
         /// <param name="_textureName">The name of the font. Typically the filename minus the filetype</param>
         /// <param name="_texture">The SpriteFont reference</param>
-        public static void addFont(string _fontName, SpriteFont _font)
+        public static void AddFont(string _fontName, SpriteFont _font)
         {
-            if (getFont(_fontName) == null)
+            if (GetFont(_fontName) == null)
             {
                 fonts.Add(_fontName, _font);
             }
@@ -118,7 +118,7 @@ namespace Graphics
         /// Removes a Texture2D from the texture Dictionary.
         /// </summary>
         /// <param name="_textureName">The key of the texture.</param>
-        public static void removeTexture(string _textureName)
+        public static void RemoveTexture(string _textureName)
         {
             textures.Remove(_textureName);
         }
@@ -127,7 +127,7 @@ namespace Graphics
         /// Removes a SpriteFont from the font Dictionary.
         /// </summary>
         /// <param name="_fontName">The key of the font.</param>
-        public static void removeFont(string _fontName)
+        public static void RemoveFont(string _fontName)
         {
             fonts.Remove(_fontName);
         }
@@ -138,7 +138,7 @@ namespace Graphics
         /// </summary>
         /// <param name="_fontName">The name of the texture.</param>
         /// <param name="_font">The Texture2D object.</param>
-        public static void loadTexture(string _textureName, Texture2D _texture)
+        public static void LoadTexture(string _textureName, Texture2D _texture)
         {
             textures[_textureName] = _texture;
         }
@@ -149,7 +149,7 @@ namespace Graphics
         /// </summary>
         /// <param name="_fontName">The name of the font.</param>
         /// <param name="_font">The SpriteFont object.</param>
-        public static void loadFont(string _fontName, SpriteFont _font)
+        public static void LoadFont(string _fontName, SpriteFont _font)
         {
             fonts[_fontName] = _font;
         }
@@ -159,7 +159,7 @@ namespace Graphics
         /// </summary>
         /// <param name="_fontName">The name key of the texture.</param>
         /// <returns>The related Texture2D.</returns>
-        public static Texture2D getTexture(string _textureName)
+        public static Texture2D GetTexture(string _textureName)
         {
             Texture2D returnTexture;
             try
@@ -181,7 +181,7 @@ namespace Graphics
         /// </summary>
         /// <param name="_fontName">The name key of the font.</param>
         /// <returns>The related SpriteFont.</returns>
-        public static SpriteFont getFont(string _fontName)
+        public static SpriteFont GetFont(string _fontName)
         {
             SpriteFont returnFont;
             fonts.TryGetValue(_fontName, out returnFont);

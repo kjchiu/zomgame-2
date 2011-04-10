@@ -171,33 +171,33 @@ namespace Zomgame {
         /// </summary>
         public void UpdateLightMap()
         {
-            if (false)
+#if false
+
+            foreach (Light light in lights)
             {
-                foreach (Light light in lights)
+                Coord coord;
+                for (int y = 0; y < height; y++)
                 {
-                    Coord coord;
-                    for (int y = 0; y < height; y++)
+                    for (int x = 0; x < width; x++)
                     {
-                        for (int x = 0; x < width; x++)
+                        coord = new Coord(x, y);
+                        if (IsInMap(coord))
                         {
-                            coord = new Coord(x, y);
-                            if (IsInMap(coord))
-                            {
-                                CreateLightRay(light.Location.Coordinates, coord, light);
-                            }
+                            CreateLightRay(light.Location.Coordinates, coord, light);
                         }
                     }
-
-                    lightMap[light.Location.Coordinates.X, light.Location.Coordinates.Y] =
-
-                        //(float)light.LightColor.G * ((float)light.Strength / 100)
-                        //red strength = (float)light.LightColor.R * (light.Strength / 5 / 255) * light.Strength / 5
-
-                        new Color((byte)(light.LightColor.R * light.Strength / 100),
-                                  (byte)(light.LightColor.G * light.Strength / 100),
-                                  (byte)(light.LightColor.B * light.Strength / 100));
                 }
+
+                lightMap[light.Location.Coordinates.X, light.Location.Coordinates.Y] =
+
+                    //(float)light.LightColor.G * ((float)light.Strength / 100)
+                    //red strength = (float)light.LightColor.R * (light.Strength / 5 / 255) * light.Strength / 5
+
+                    new Color((byte)(light.LightColor.R * light.Strength / 100),
+                                (byte)(light.LightColor.G * light.Strength / 100),
+                                (byte)(light.LightColor.B * light.Strength / 100));
             }
+#endif
         }
         
         public List<Coord> GetRay(Coord start, Coord target)
