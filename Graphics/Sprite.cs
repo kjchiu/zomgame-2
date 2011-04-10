@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework.Graphics;
+using Graphics;
 namespace Zomgame
 {
 	public class Sprite

@@ -8,10 +8,10 @@ namespace Zomgame.Events
 {
 	class AttackSpaceEvent : BaseEvent
 	{
-		public Entity attacker;
+		public Creature attacker;
 		public MapBlock space;
 
-		public AttackSpaceEvent(Entity nAttacker, MapBlock nSpace)
+		public AttackSpaceEvent(Creature nAttacker, MapBlock nSpace)
 		{
 			attacker = nAttacker;
 			space = nSpace;
@@ -19,11 +19,11 @@ namespace Zomgame.Events
 
 		public override void fireEvent()
 		{
-			if (space.Entities.Count > 0)
+			if (space.CreatureInBlock != null)
 			{
-				EventHandler.Instance.AddEvent(EventFactory.CreateAttackEvent(attacker, space.Entities[0]));
-			} else if (space.Props.Count > 0){
-				EventHandler.Instance.AddEvent(EventFactory.CreateAttackPropEvent(attacker, space.Props[0]));
+				EventHandler.Instance.AddEvent(EventFactory.CreateAttackEvent(attacker, space.CreatureInBlock));
+			} else if (space.PropInBlock != null){
+                EventHandler.Instance.AddEvent(EventFactory.CreateAttackPropEvent(attacker, space.PropInBlock));
 			}
 		}
 	}

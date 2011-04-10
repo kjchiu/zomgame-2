@@ -6,7 +6,7 @@ using Zomgame.Factories;
 
 namespace Zomgame
 {
-	class MapGenerator
+	static class MapGenerator
 	{
         public static Map map; 
 
@@ -32,7 +32,7 @@ namespace Zomgame
             {
                 for (int y = 0; y < yLength; y++)
                 {
-                    map.GetBlockAt(x + xPos, y + yPos).TerrainList[0] = new Terrain("wood_floor_bmp");
+                    map.GetBlockAt(x + xPos, y + yPos).TerrainInBlock = new Terrain("wood_floor_bmp");
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace Zomgame
 					if (map.GetBlockAt(x, y).Passable)
 					{
 						zomPlaced = true;
-						map.AddObjectAt(EntityFactory.CreateZombie(p), x, y); 
+					//	map.AddObjectAt(EntityFactory.CreateZombie(p), x, y); 
 					}
 				}
 			}

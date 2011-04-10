@@ -21,6 +21,12 @@ namespace Zomgame {
         private MapBlock location;
 		Sprite graphic;
 
+        // newObject.RemoveObject = new RemoveFromWorld(RemoveObject);
+        //    newObject.AddObject = new AddToWorld(AddObject);
+        //
+       public Map.AddObjectAtDel addObjectAt;
+       public Map.RemoveObjectDel removeObject;
+
         protected GameObject():this("null_bmp"){ }
 
         protected GameObject(string nImgLoc) {
@@ -28,6 +34,18 @@ namespace Zomgame {
 			name = "GameObject-" + thisID;
             description = "A thing.";
 			graphic = new Sprite(nImgLoc);
+        }
+
+        public Map.AddObjectAtDel AddObjectAt
+        {
+            get { return addObjectAt; }
+            set { addObjectAt = value; }
+        }
+
+        public Map.RemoveObjectDel RemoveObject
+        {
+            get { return removeObject; }
+            set { removeObject = value; }
         }
 
         public MapBlock Location {

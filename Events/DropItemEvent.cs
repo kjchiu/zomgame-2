@@ -28,7 +28,7 @@ namespace Zomgame.Events
 			{
 				EventHandler.Instance.AddEvent(EventFactory.CreateUnequipItemEvent(picker, item));
 			}
-			picker.State = Entity.EntityState.IDLE;
+			picker.State = Creature.EntityState.IDLE;
 
             picker.Location.AddObject(item);
             picker.Inventory.Remove(item);

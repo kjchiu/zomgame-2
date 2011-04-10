@@ -12,6 +12,7 @@ using Zomgame.UI;
 using Zomgame.Messaging;
 using Zomgame.Messaging.Messages;
 using Zomgame.Constants;
+using Zomgame.GameObjects.Props;
 
 namespace Zomgame.States
 {
@@ -78,23 +79,23 @@ namespace Zomgame.States
             {
                 if (input.Consume(KeyBindings.UP))
                 {
-                    MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    MapBlock lInteractBlock = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1);
+                    InteractWithBlock(lInteractBlock);
                 }
                 else if (input.Consume(KeyBindings.DOWN))
                 {
-                    MapBlock location = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    MapBlock lInteractBlock = map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1);
+                    InteractWithBlock(lInteractBlock);
                 }
                 else if (input.Consume(KeyBindings.LEFT))
                 {
-                    MapBlock location = map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    MapBlock lInteractBlock = map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y);
+                    InteractWithBlock(lInteractBlock);
                 }
                 else if (input.Consume(KeyBindings.RIGHT))
                 {
-                    MapBlock location = map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y);
-                    EventHandler.Instance.AddEvent(EventFactory.CreatePropInteractionEvent(location.Props[0], player));
+                    MapBlock lInteractBlock = map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y);
+                    InteractWithBlock(lInteractBlock);
                 }
             }
             else if (input.Consume(Keys.Escape)){
@@ -102,19 +103,19 @@ namespace Zomgame.States
 			}
 			else if (input.Consume(KeyBindings.LEFT))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X - 1, player.Location.Coordinates.Y)));
+                player.Move(map.GetBlockAt(player.Location.Coordinates[-1, 0]));
             }
 			else if (input.Consume(KeyBindings.RIGHT))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X + 1, player.Location.Coordinates.Y)));
+                player.Move(map.GetBlockAt(player.Location.Coordinates[+1, 0]));
             }
 			else if (input.Consume(KeyBindings.DOWN))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y + 1)));
+                player.Move(map.GetBlockAt(player.Location.Coordinates[0,+1]));
             }
 			else if (input.Consume(KeyBindings.UP))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateMoveEvent(player, map.GetBlockAt(player.Location.Coordinates.X, player.Location.Coordinates.Y - 1)));
+				player.Move(map.GetBlockAt(player.Location.Coordinates[0, 0]));
             }
 			else if (input.Consume(KeyBindings.PICK_UP))
 			{
@@ -145,6 +146,7 @@ namespace Zomgame.States
 			{
 				Trace.WriteLine("Player is equipped with " + player.EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name);
 			}
+
             else if (input.Consume(Keys.OemTilde))
             {
                 var dialog = new YesNoDialog(Screen, "omg yes");
@@ -152,6 +154,16 @@ namespace Zomgame.States
                 Trace.WriteLine(dialog.Result);
 
             }
+        }
+
+        private void InteractWithBlock(MapBlock lInteractBlock)
+        {
+            if (lInteractBlock.PropInBlock is IInteractable)
+            {
+                IInteractable lInteractable = (IInteractable)lInteractBlock.PropInBlock;
+                lInteractable.Interact();
+            }
+            
         }
 
         public override void DrawState(GameTime time)

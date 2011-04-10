@@ -18,6 +18,9 @@ using Zomgame.Messaging.Messages;
 using Zomgame.Props;
 using Zomgame.Abilities;
 using Zomgame.Items;
+using Graphics;
+using Zomgame.Utility;
+using Zomgame.GameObjects.Props;
 
 namespace Zomgame
 {
@@ -50,7 +53,7 @@ namespace Zomgame
         protected SpriteFont font;
         protected double inputTimePassed = 0;
         protected bool canInput = false;
-        protected List<Entity> entities;
+        protected List<Creature> entities;
         protected InputHandler inputHandler;
         protected LinkedList<GameState> states; // new states add to end
                                                 // update using only last
@@ -75,7 +78,7 @@ namespace Zomgame
             get { return map; }
         }
 
-        public List<Entity> Entities
+        public List<Creature> Entities
         {
             get { return entities; }
         }
@@ -117,7 +120,7 @@ namespace Zomgame
             //inputHandler = InputHandler.Instance;
             Content.RootDirectory = "Content";
 
-            entities = new List<Entity>();          
+            entities = new List<Creature>();          
             states = new LinkedList<GameState>();
             this.IsMouseVisible = true;
             
@@ -146,23 +149,15 @@ namespace Zomgame
         /// </summary>
         protected override void LoadContent()
         {
-			
 
+            Logger.Log("Loading Content");
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new ZSpriteBatch(GraphicsDevice);
 
-			DirectoryInfo di = new DirectoryInfo(Content.RootDirectory);
-			
-			foreach (FileInfo fi in di.GetFiles("*_bmp.xnb"))
-			{
-				GraphicsDispenser.addTexture(Path.GetFileNameWithoutExtension(fi.Name), Content.Load<Texture2D>(Path.Combine(Path.GetDirectoryName(fi.Name), Path.GetFileNameWithoutExtension(fi.Name))));
-				//GraphicsDispenser.addTexture(fi.Name.Remove(fi.Name.Length - 4), Content.Load<Texture2D>(Content.RootDirectory + "/" + fi.Name.Remove(fi.Name.Length - 4)));
-			}
+            GraphicsDispenser.LoadTextureData(Content);
+            GraphicsDispenser.LoadFontData(Content);
 
-            font = Content.Load<SpriteFont>("Courier New");
-            GraphicsDispenser.AddFont("Courier New", font);
-            GraphicsDispenser.AddFont("Default", font);
-            MessageLog.Font = font;
+            MessageLog.Font = GraphicsDispenser.getFont("MessageBarFont") ;
 			LoadData();
             StateFactory.Init(this);
             this.AddState(StateFactory.CreatePlayState(camera));
@@ -171,9 +166,8 @@ namespace Zomgame
 
 		protected void LoadData()
 		{
-			player = new Player(new Vector2(0, 0), "player_bmp");
-			player.Graphic.Texture = GraphicsDispenser.getTexture("player_bmp");
-            player.AddSkill(new Skill(SkillNames.MEDICAL_SKILL));
+			player = new Player("player_bmp");
+			player.AddSkill(new Skill(SkillNames.MEDICAL_SKILL));
 
             player.Inventory.Add(ItemFactory.CreateDefaultItem());
             player.Inventory.Add(ItemFactory.CreateDefaultItem());
@@ -187,34 +181,29 @@ namespace Zomgame
             player.Inventory.Add(sword2);
             player.Inventory.Add(WeaponFactory.CreateSword());
 
-
-
-            map = new Map(80, 80);
-			map.GetBlockAt(5, 5).AddObject(player);
-            MapGenerator.map = map;
-            MapGenerator.CreateWoodenBuilding(10, 10, 30, 30);
-
-            Light l = new Light(80, Color.Blue);
-            map.AddObjectAt(l, 21, 23);
+            
+            
+            map = new Map(30, 30);
+			map.AddObjectAt(player, 5, 5);
+            Zombie lZack = new Zombie(player, map);
+            map.AddObjectAt(lZack, 10, 10);
 
             Door d = new Door("door_closed_bmp");
             d.Interaction = new UseDoorPAbility(d);
             map.GetBlockAt(5, 10).AddObject(d);
 
+            ToggleSwitch lSwitch = new ToggleSwitch();
+            lSwitch.ConnectedProp = d;
+            lSwitch.OnGraphic = new Sprite("toggle_off");
+            lSwitch.OffGraphic = new Sprite("toggle_on");
+            map.AddObjectAt(lSwitch, 7, 7);
+
 			camera = new Camera(player, Game.VISBLE_MAP_WIDTH, Game.VISBLE_MAP_HEIGHT, map);
 
-			Zombie z = EntityFactory.CreateZombie(player);
-			z.ChangeStateTo(ZombieStateNames.SEARCH_STATE,player.Location);
-			entities.Add(z);
-			map.GetBlockAt(6, 6).AddObject(z);
-			MapGenerator.PutZombiesEverywhere(100, player);
-			
 			Item item = new Item("item_bmp");
-			
 			map.GetBlockAt(3, 3).AddObject(item);
 
-            MessageBus.Instance.AddMessage(new DominatingMessage(player, z, item));
-		}
+       }
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
@@ -240,14 +229,6 @@ namespace Zomgame
             
             EventHandler.Instance.FireEvents(TurnsPassed);
 			
-			if (player.State == Entity.EntityState.BUSY)
-			{
-				foreach (Zombie z in map.MapEntities)
-				{
-					z.Update();
-				}
-				++TurnsPassed;
-			}
             base.Update(gameTime);
            
         }

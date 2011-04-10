@@ -7,14 +7,14 @@
 
 namespace Zomgame.Events {
 	class WaitEvent : BaseEvent {
-		Entity waiter;
+		Creature waiter;
         
-        public WaitEvent(Entity nWaiter) {
+        public WaitEvent(Creature nWaiter) {
             waiter = nWaiter;
         }
 
         public override void fireEvent() {
-            waiter.State = Entity.EntityState.IDLE;
+            waiter.State = Creature.EntityState.IDLE;
         }
 	}
 }

@@ -5,12 +5,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using Graphics;
 
 namespace Zomgame
 {
 	public class Camera
 	{
-	    protected Entity focus;
+	    protected Creature focus;
 	    protected int width;
         protected int height;
         protected int offset;
@@ -24,7 +25,7 @@ namespace Zomgame
 	    }
 
 
-        public Camera(Entity focus, int width, int height, Map nMap)
+        public Camera(Creature focus, int width, int height, Map nMap)
 	    {
 	        this.focus = focus;
 	        this.width = width;
@@ -108,7 +109,7 @@ namespace Zomgame
 					//player.Location.Coordinates.X + x, y);
 					//Coord coord = new Coord(focus.Location.Coordinates.X + x - Game.VISIBLE_MAP_OFFSET, focus.Location.Coordinates.Y + y - Game.VISIBLE_MAP_OFFSET);
                     Coord coord = this[x,y];
-                    int r = GameMap.LightMap[x, y].R;
+                    //int r = GameMap.LightMap[x, y].R;
 					if (map.IsInMap(coord) && visiblePositions[x, y])
 					{
 						Texture2D texture = map.GetBlockAt(coord).Graphic.Texture;

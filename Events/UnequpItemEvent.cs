@@ -27,7 +27,7 @@ namespace Zomgame.Events
 			item.AttachAbility(new EquipItemAbility());
 			
 
-			unequipper.State = Entity.EntityState.IDLE;
+			unequipper.State = Creature.EntityState.IDLE;
 		}
 	}
 }

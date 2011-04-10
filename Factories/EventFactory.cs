@@ -10,14 +10,14 @@ using Zomgame.Events;
 namespace Zomgame.Factories {
     static class EventFactory {
 
-        public static BaseEvent CreateMoveEvent(Entity nMov, MapBlock nDest) {
-		    if (nMov.State != Entity.EntityState.BUSY)
+        public static BaseEvent CreateMoveEvent(Creature nMov, MapBlock nDest) {
+		    if (nMov.State != Creature.EntityState.BUSY)
 			{
 				MoveEvent mEvent = new MoveEvent(nMov, nDest);
 				mEvent.CreateTime = Game.TurnsPassed;
 				mEvent.ActivateTime = Game.TurnsPassed + 1;
 
-				nMov.State = Entity.EntityState.BUSY;
+				nMov.State = Creature.EntityState.BUSY;
 				return mEvent;
 			}
 			else
@@ -28,7 +28,7 @@ namespace Zomgame.Factories {
           
         }
 
-		public static AttackSpaceEvent CreateAttackSpaceEvent(Entity nAtt, MapBlock nSpa){
+		public static AttackSpaceEvent CreateAttackSpaceEvent(Creature nAtt, MapBlock nSpa){
 			AttackSpaceEvent aEvent = new AttackSpaceEvent(nAtt, nSpa);
 
 			aEvent.CreateTime = Game.TurnsPassed;
@@ -37,26 +37,26 @@ namespace Zomgame.Factories {
 			return aEvent;
 		}
 
-		public static AttackEvent CreateAttackEvent(Entity nAtt, Entity nDef)
+		public static AttackEvent CreateAttackEvent(Creature nAtt, Creature nDef)
 		{
 			AttackEvent aEvent = new AttackEvent(nAtt, nDef);
 
 			aEvent.CreateTime = Game.TurnsPassed;
 			aEvent.ActivateTime = Game.TurnsPassed + 1;
 
-			nAtt.State = Entity.EntityState.BUSY;
+			nAtt.State = Creature.EntityState.BUSY;
 
 			return aEvent;
 		}
 
-		public static AttackPropEvent CreateAttackPropEvent(Entity nAtt, Prop nDef)
+		public static AttackPropEvent CreateAttackPropEvent(Creature nAtt, Prop nDef)
 		{
 			AttackPropEvent aEvent = new AttackPropEvent(nAtt, nDef);
 
 			aEvent.CreateTime = Game.TurnsPassed;
 			aEvent.ActivateTime = Game.TurnsPassed + 1;
 
-			nAtt.State = Entity.EntityState.BUSY;
+			nAtt.State = Creature.EntityState.BUSY;
 
 			return aEvent;
 		}
@@ -77,7 +77,7 @@ namespace Zomgame.Factories {
             ev.CreateTime = Game.TurnsPassed;
             ev.ActivateTime = Game.TurnsPassed;
 
-            picker.State = Entity.EntityState.BUSY;
+            picker.State = Creature.EntityState.BUSY;
 
             return ev;
         }
@@ -88,24 +88,24 @@ namespace Zomgame.Factories {
 			eiv.CreateTime = Game.TurnsPassed;
 			eiv.ActivateTime = Game.TurnsPassed + 2;
 
-			equipper.State = Entity.EntityState.BUSY;
+			equipper.State = Creature.EntityState.BUSY;
 
 			return eiv;
 		}
 
-		public static KillEntityEvent CreateKillEntityEvent(Entity nDie)
+		public static KillEntityEvent CreateKillEntityEvent(Creature nDie)
 		{
 			KillEntityEvent dEvent = new KillEntityEvent(nDie);
 
 			dEvent.CreateTime = Game.TurnsPassed;
 			dEvent.ActivateTime = Game.TurnsPassed + 0;
 		
-			nDie.State = Entity.EntityState.BUSY;
+			nDie.State = Creature.EntityState.BUSY;
 
 			return dEvent;
 		}
 
-		public static WaitEvent CreateEmptyEvent(Entity nEnt)
+		public static WaitEvent CreateEmptyEvent(Creature nEnt)
 		{
 			WaitEvent wEvent = new WaitEvent(nEnt);
 
@@ -130,7 +130,7 @@ namespace Zomgame.Factories {
 			pEvent.CreateTime = Game.TurnsPassed;
 			pEvent.ActivateTime = Game.TurnsPassed + 0;
 
-			picker.State = Entity.EntityState.BUSY;
+			picker.State = Creature.EntityState.BUSY;
 
 			return pEvent;
 		}
@@ -141,7 +141,7 @@ namespace Zomgame.Factories {
             pEvent.CreateTime = Game.TurnsPassed;
             pEvent.ActivateTime = Game.TurnsPassed + 1;
 
-            player.State = Entity.EntityState.BUSY;
+            player.State = Creature.EntityState.BUSY;
 
             return pEvent;
         }
@@ -152,7 +152,7 @@ namespace Zomgame.Factories {
 			rEvent.CreateTime = Game.TurnsPassed;
 			rEvent.ActivateTime = Game.TurnsPassed + 0;
 
-			picker.State = Entity.EntityState.BUSY;
+			picker.State = Creature.EntityState.BUSY;
 
 			return rEvent;
 		}
@@ -163,18 +163,18 @@ namespace Zomgame.Factories {
 			uiEvent.CreateTime = Game.TurnsPassed;
 			uiEvent.ActivateTime = Game.TurnsPassed + 0;
 
-			p.State = Entity.EntityState.BUSY;
+			p.State = Creature.EntityState.BUSY;
 
 			return uiEvent;
 		}
 
-        public static WaitEvent CreateWaitEvent(Entity nWait)
+        public static WaitEvent CreateWaitEvent(Creature nWait)
         {
             WaitEvent wEvent = new WaitEvent(nWait);
             wEvent.CreateTime = Game.TurnsPassed;
             wEvent.ActivateTime = Game.TurnsPassed + 5;
 
-            nWait.State = Entity.EntityState.BUSY;
+            nWait.State = Creature.EntityState.BUSY;
 
             return wEvent;
         }

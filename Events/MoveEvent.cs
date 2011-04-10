@@ -12,46 +12,45 @@ namespace Zomgame.Events
 {
     class MoveEvent : BaseEvent
     {
-        Entity mover;
+        Creature mover;
         MapBlock destination;
 
-        public MoveEvent(Entity nMover, MapBlock nDestination) {
+        public MoveEvent(Creature nMover, MapBlock nDestination) {
             mover = nMover;
             destination = nDestination;
         }
 
         public override void fireEvent() {
-			mover.State = Entity.EntityState.IDLE;
+			mover.State = Creature.EntityState.IDLE;
 			if (destination != null && destination.GameMap.IsInMap(destination.Coordinates)) {
 				//check for props and entities first
-				if (destination.Props.Count > 0)
+				if (destination.PropInBlock != null)
 				{
-					foreach (Prop prop in destination.Props)
-					{
-						if (!prop.Passable)
+					
+						if (!destination.PropInBlock.Passable)
 						{
 							//If it's a door and the mover is a player, then just open the door
-                            if (prop is Door && mover is Player)
+                            if (destination.PropInBlock is Door && mover is Player)
                             {
-                                prop.Interact((Player)mover);
+                                destination.PropInBlock.Interact((Player)mover);
 							}
 							else if (mover is Zombie)
 							{
 								//zombies just destroy shit because they feel unloved.
-								EventHandler.Instance.AddEvent(EventFactory.CreateAttackPropEvent(mover, prop));
+                                EventHandler.Instance.AddEvent(EventFactory.CreateAttackPropEvent(mover, destination.PropInBlock));
 							}
-                            mover.State = Entity.EntityState.IDLE;
+                            mover.State = Creature.EntityState.IDLE;
 							
 							return;
 						}
-					}
+					
 				}
-				if (destination.Entities.Count > 0)
+				if (destination.CreatureInBlock != null)
 				{
-					Entity defender = destination.Entities[0];
+                    Creature defender = destination.CreatureInBlock;
 					if (!(mover is Zombie && defender is Zombie))
-					{ 
-						EventHandler.Instance.AddEvent(EventFactory.CreateAttackEvent(mover, destination.Entities[0]));
+					{
+                        EventHandler.Instance.AddEvent(EventFactory.CreateAttackEvent(mover, destination.CreatureInBlock));
 					}
 					return;
 				}
