@@ -4,24 +4,25 @@ using Zomgame.Items;
 using Zomgame.Factories;
 using Zomgame.Constants;
 using System.Diagnostics;
+using Zomgame.GameObjects;
 
 namespace Zomgame
 {
     public class Player
-        : Creature
+        : Human
     {
         protected Dictionary<string, Item> equipment;
 		protected Dictionary<string, Item> defaultEquipment;
 
 		protected Dictionary<string, Skill> skills;
-		protected List<Item> inventory;
+		
 		protected Weapon defaultWeapon;
 
 		public Player(string imgLoc)
 			: base(imgLoc)
 		{
 			Name = "Player";
-			inventory = new List<Item>();
+			iInventory = new List<Item>();
 			skills = new Dictionary<string, Skill>();
             equipment = new Dictionary<string, Item>();
 			defaultEquipment = new Dictionary<string, Item>();
@@ -83,12 +84,6 @@ namespace Zomgame
 				return true;
 			}
 			return false;
-		}
-
-		public List<Item> Inventory
-		{
-			get { return inventory; }
-			set { inventory = value; }
 		}
 
 		public Dictionary<string, Skill> Skills

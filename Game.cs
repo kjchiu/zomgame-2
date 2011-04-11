@@ -21,6 +21,7 @@ using Zomgame.Items;
 using Zomgame.Graphics;
 using Zomgame.Utility;
 using Zomgame.GameObjects.Props;
+using Zomgame.MapObjects.MapGen;
 
 namespace Zomgame
 {
@@ -187,6 +188,9 @@ namespace Zomgame
 			map.AddObjectAt(player, 5, 5);
             Zombie lZack = new Zombie(player, map);
             map.AddObjectAt(lZack, 10, 10);
+
+            Room lRoom = new Room(new Coord(8, 8), 5, 5, MapGenObject.Direction.SOUTH);
+            lRoom.Construct(map);
 
             Door d = new Door("door_closed_bmp");
             d.Interaction = new UseDoorPAbility(d);

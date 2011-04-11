@@ -115,36 +115,44 @@ namespace Zomgame.States
             }
 			else if (input.Consume(KeyBindings.UP))
             {
-				player.Move(map.GetBlockAt(player.Location.Coordinates[0, 0]));
+				player.Move(map.GetBlockAt(player.Location.Coordinates[0, -1 ]));
             }
 			else if (input.Consume(KeyBindings.PICK_UP))
 			{
 				if (player.Location.HasItems)
 				{
-					EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, player.Location.ItemAt(0)));
+                    player.Location.RemoveObject(player.Location.ItemAt(0));
+                    player.PickUpItem(player.Location.ItemAt(0));
 				}
 			}
-			else if (input.Consume(Keys.W))
+            else if (input.Consume(KeyBindings.DROP_ITEM))
             {
-				EventHandler.Instance.AddEvent(EventFactory.CreateWaitEvent(player));
+                if (player.Inventory.Count > 0)
+                {
+                    player.DropItem(player.Inventory[0]);
+                }
             }
-			else if (input.Consume(KeyBindings.OPEN_INV))
+            else if (input.Consume(Keys.W))
+            {
+                EventHandler.Instance.AddEvent(EventFactory.CreateWaitEvent(player));
+            }
+            else if (input.Consume(KeyBindings.OPEN_INV))
             {
                 //AddState(StateFactory.CreateInventoryState());
                 Screen.AddPanel(new InventoryPanel(0, 0, 200, 200, Screen, player));
             }
-			else if (input.Consume(Keys.N))
-			{
-				EventHandler.Instance.AddEvent(EventFactory.CreateMakeNoiseEvent(map.GetBlockAt(player.Location.Coordinates), 50));
-			}
+            else if (input.Consume(Keys.N))
+            {
+                EventHandler.Instance.AddEvent(EventFactory.CreateMakeNoiseEvent(map.GetBlockAt(player.Location.Coordinates), 50));
+            }
             else if (input.Consume(Keys.Back))
             {
                 MessageBus.Instance.AddMessage(new FillerMessage());
             }
-			else if (input.Consume(Keys.E))
-			{
-				Trace.WriteLine("Player is equipped with " + player.EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name);
-			}
+            else if (input.Consume(Keys.E))
+            {
+                Trace.WriteLine("Player is equipped with " + player.EquipmentIn(EquipmentTypes.MELEE_WEAPON).Name);
+            }
 
             
         }

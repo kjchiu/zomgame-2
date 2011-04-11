@@ -48,6 +48,14 @@ namespace Zomgame.GameObjects.Props
             set { iOffGraphic = value; }
         }
 
+        public override bool SeeThrough
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         #region ISwitch Members
 
         public void FlickSwitch()
