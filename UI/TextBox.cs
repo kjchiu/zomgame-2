@@ -23,7 +23,7 @@ namespace Zomgame.UI
         }
 
         public TextBox(int x, int y, int width, int height, Screen screen, IEnumerable<string> _messages)
-            : this(x, y, width, height, screen, _messages, GraphicsDispenser.GetFont("Default"), Color.Gold)
+            : this(x, y, width, height, screen, _messages, GraphicsDispenser.GetFont("Calibri"), Color.Gold)
         {
             
         }

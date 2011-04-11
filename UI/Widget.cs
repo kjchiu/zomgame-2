@@ -8,42 +8,36 @@ namespace Zomgame.UI
 {
     public abstract class Widget
     {
+        
+        #region " Properties "
         /// <summary>
         /// x of top left corner
         /// </summary>
-        protected int x;
+        public int X
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// y of top left corner
         /// </summary>
-        protected int y;
-
-        protected int height;
-        protected int width;
-
-        #region " Properties "
-        public int X
+        public int Y
         {
-            get { return x; }
-            set { x = value; }
-        }
-
-        public int Y 
-        { 
-            get { return y; }
-            set { y = value; }
+            get;
+            private set;
         }
 
         public int Height
         {
-            get { return height; }
-            set { height = value; }
+            get;
+            private set;
         }
 
         public int Width
         {
-            get { return width; }
-            set { width = value; }
+            get;
+            private set;
         }
         #endregion
 

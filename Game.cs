@@ -42,6 +42,8 @@ namespace Zomgame
         public const int MAP_BLOCK_SIZE = 15;
         public const int MAP_BLOCK_CENTER = MAP_BLOCK_SIZE / 2;
         public const int MAX_INPUT_FREQUENCY = 125; // milliseconds
+        public const int WINDOW_HEIGHT = 768;
+        public const int WINDOW_WIDTH = 1024;
         #endregion
 
         #region " Private Members "
