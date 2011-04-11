@@ -19,20 +19,28 @@ namespace Zomgame.UI
 
         public virtual Color BackgroundColour
         {
-            get { return Color.Black; }
+            get;
+            protected set;
         }
 
         public virtual Color BorderColour
         {
-            get { return Color.DarkGray; }
+            get;
+            protected set;
         }
 
         public Panel(int x, int y, int width, int height, Screen screen)
+            : this(x, y, width, height, Color.Black, Color.DarkGray, screen)
+        { }
+
+        public Panel(int x, int y, int width, int height, Color backgroundColour, Color BorderColour, Screen screen)
             : base(x, y, width, height)
         {
             margin = 5;
             border = 1;
             Screen = screen;
+            BackgroundColour = backgroundColour;
+            BorderColour = BorderColour;
         }
 
         public virtual bool HandlesInput
@@ -42,11 +50,10 @@ namespace Zomgame.UI
 
         public override void Draw(ZSpriteBatch spriteBatch)
         {
-            spriteBatch.DrawRectangle(X, Y, Width, Height, Color.Black, this.border, Color.DarkGray);
+            spriteBatch.DrawRectangle(X, Y, Width, Height, BackgroundColour, this.border, BorderColour);
             Brush brush = new Brush(spriteBatch, this);
-            brush.DrawLine(new Vector2(0, 0), new Vector2(50, 50), Color.Red);
-            spriteBatch.DrawLine(new Vector2(0, 0), new Vector2(50, 50), Color.Red);
             DrawContent(brush);
+
         }
 
         public abstract void DrawContent(Brush brush);

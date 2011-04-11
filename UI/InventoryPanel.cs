@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Zomgame.Events;
 using Zomgame.Factories;
+using Zomgame.Graphics;
+using Zomgame.Messaging;
+using Zomgame.Messaging.Messages;
 
 namespace Zomgame.UI
 {
@@ -41,8 +44,8 @@ namespace Zomgame.UI
         private Player player;
         #endregion
 
-        public InventoryPanel(int x, int y, int width, int height, Screen screen, Player player)
-            : base(x, y, width, height, screen)
+        public InventoryPanel(Screen screen, Player player)
+            : base(0, Game.VISBLE_MAP_HEIGHT * Game.MAP_BLOCK_SIZE, Game.VISBLE_MAP_WIDTH * Game.MAP_BLOCK_SIZE, Game.WINDOW_HEIGHT - (Game.VISBLE_MAP_HEIGHT * Game.MAP_BLOCK_SIZE), screen)
         {
             itemEventDelegates = new Dictionary<ItemSource, IDictionary<ItemEvent, Action>>();
             this.player = player;
@@ -88,10 +91,11 @@ namespace Zomgame.UI
             }
             else if (input.Consume(Keys.A))
             {
+                MessageBus.Instance.AddMessage(new FillerMessage());
                 return Actions.Ability;
             }
             else
-            { 
+            {
                 return Actions.None;
             }
         }
@@ -103,7 +107,7 @@ namespace Zomgame.UI
                 case Actions.None:
                     return;
                 case Actions.Right:
-                    selectedSource = (++selectedSource) % 2;                
+                    selectedSource = (++selectedSource) % 2;
                     break;
                 case Actions.Left:
                     selectedSource = (--selectedSource) % 2;
@@ -138,7 +142,7 @@ namespace Zomgame.UI
 
             if (items[selectedSource].Count > 0)
             {
-                selectedIndex = (uint)Math.Min(items[selectedSource].Count, (int)selectedIndex);
+                selectedIndex = (uint)Math.Min(items[selectedSource].Count - 1, (int)selectedIndex);
             }
             else
             {
@@ -153,6 +157,30 @@ namespace Zomgame.UI
         public override void DrawContent(Brush brush)
         {
 
+            int columnOffset = 0;
+            int y = 0;
+            var font = GraphicsDispenser.GetFont("Calibri");
+
+            int columnWidth = Width / items.Length;
+            int source = 0;
+            int index = 0;
+            foreach (var container in items)
+            {
+                index = 0;
+                y = 0;
+                foreach (var item in container)
+                {
+
+                    brush.DrawString(font, item.Name, new Vector2(columnOffset + 5, y), selectedSource == source && selectedIndex == index ? Color.Yellow : Color.White);
+                    y += font.LineSpacing;
+                    ++index;
+                }
+                ++source;
+                columnOffset = columnWidth * source;
+                brush.DrawLine(new Vector2(columnOffset, 0), new Vector2(columnOffset, Height), Color.White);
+            }
+
+            
         }
-    }   
+    }
 }

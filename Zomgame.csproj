@@ -119,11 +119,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\SkillNames.cs" />
+    <Compile Include="GameObjects\Human.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="GameObjects\Props\IInteractable.cs" />
     <Compile Include="GameObjects\Props\ISwitch.cs" />
     <Compile Include="GameObjects\Props\StepSwitch.cs" />
     <Compile Include="GameObjects\Props\ToggleSwitch.cs" />
+    <Compile Include="MapObjects\MapGen\MapGenObject.cs" />
+    <Compile Include="MapObjects\MapGen\Room.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
@@ -245,9 +248,9 @@
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\MedicalItem.cs" />
     <Compile Include="KeyBindings.cs" />
-    <Compile Include="Map.cs" />
-    <Compile Include="MapBlock.cs" />
-    <Compile Include="MapGenerator.cs" />
+    <Compile Include="MapObjects\Map.cs" />
+    <Compile Include="MapObjects\MapBlock.cs" />
+    <Compile Include="MapObjects\MapGen\MapGenerator.cs" />
     <Compile Include="Messaging\MessageHandler.cs" />
     <Compile Include="GameObjects\Props\Prop.cs" />
     <Compile Include="UI\MessageLog.cs" />

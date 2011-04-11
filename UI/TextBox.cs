@@ -23,7 +23,7 @@ namespace Zomgame.UI
         }
 
         public TextBox(int x, int y, int width, int height, Screen screen, IEnumerable<string> _messages)
-            : this(x, y, width, height, screen, _messages, GraphicsDispenser.GetFont("Default"), Color.Gold)
+            : this(x, y, width, height, screen, _messages, GraphicsDispenser.GetFont("Calibri"), Color.Gold)
         {
             
         }
@@ -44,8 +44,7 @@ namespace Zomgame.UI
             foreach (string msg in messages)
             {
                 foreach (string line in textReader.Lines(msg))
-                {
-                    currY += font.LineSpacing;
+                {                    
                     if (currY > Y + Height)
                         return;
                     else
@@ -53,6 +52,7 @@ namespace Zomgame.UI
                         brush.DrawString(font, line, new Vector2(5, currY), color);
                     }
                 }
+                currY += font.LineSpacing;
             }
         }
 
