@@ -142,7 +142,7 @@ namespace Zomgame.UI
 
             if (items[selectedSource].Count > 0)
             {
-                selectedIndex = (uint)Math.Min(items[selectedSource].Count, (int)selectedIndex);
+                selectedIndex = (uint)Math.Min(items[selectedSource].Count - 1, (int)selectedIndex);
             }
             else
             {
@@ -157,26 +157,30 @@ namespace Zomgame.UI
         public override void DrawContent(Brush brush)
         {
 
-            int x = 5;
+            int columnOffset = 0;
             int y = 0;
             var font = GraphicsDispenser.GetFont("Calibri");
 
-            int middle = Width / 2;
+            int columnWidth = Width / items.Length;
             int source = 0;
             int index = 0;
             foreach (var container in items)
             {
+                index = 0;
+                y = 0;
                 foreach (var item in container)
                 {
 
-                    brush.DrawString(font, item.Name, new Vector2(x, y), selectedSource == source && selectedIndex == index ? Color.Yellow : Color.White);
+                    brush.DrawString(font, item.Name, new Vector2(columnOffset + 5, y), selectedSource == source && selectedIndex == index ? Color.Yellow : Color.White);
                     y += font.LineSpacing;
                     ++index;
                 }
                 ++source;
+                columnOffset = columnWidth * source;
+                brush.DrawLine(new Vector2(columnOffset, 0), new Vector2(columnOffset, Height), Color.White);
             }
 
-            brush.DrawLine(new Vector2(middle, 0), new Vector2(middle, Height), Color.White);
+            
         }
     }
 }
