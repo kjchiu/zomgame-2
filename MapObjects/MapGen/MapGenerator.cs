@@ -12,29 +12,7 @@ namespace Zomgame
 
         public static void CreateWoodenBuilding(int xPos, int yPos, int xLength, int yLength)
         {
-            for (int y = 0; y <= 1; y++)
-            {
-                for (int x = 0; x < xLength; x++)
-                {
-                    map.AddObjectAt(PropFactory.CreateWoodWall(), xPos + x, yPos + ((yLength - 1) * y));
-                }
-            }
-
-            for (int x = 0; x <= 1; x++)
-            {
-                for (int y = 1; y < yLength - 1; y++)
-                {
-                   map.AddObjectAt(PropFactory.CreateWoodWall(), xPos + ((xLength - 1) * x), yPos + y);
-                }
-            }
-
-            for (int x = 0; x < xLength; x++)
-            {
-                for (int y = 0; y < yLength; y++)
-                {
-                    map.GetBlockAt(x + xPos, y + yPos).TerrainInBlock = new Terrain("wood_floor_bmp");
-                }
-            }
+           
         }
 
 		/// <summary>

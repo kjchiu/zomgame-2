@@ -120,6 +120,7 @@ namespace Zomgame.States
             }
             else if (input.Consume(KeyBindings.UP))
             {
+				player.Move(map.GetBlockAt(player.Location.Coordinates[0, -1 ]));
                 player.Move(map.GetBlockAt(player.Location.Coordinates[0, 0]));
             }
             else if (input.Consume(KeyBindings.PICK_UP))
@@ -127,6 +128,22 @@ namespace Zomgame.States
                 if (player.Location.HasItems)
                 {
                     EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, player.Location.ItemAt(0)));
+                }
+            }
+            else if (input.Consume(KeyBindings.PICK_UP))
+            {
+                if (player.Location.HasItems)
+                {
+                    player.Location.RemoveObject(player.Location.ItemAt(0));
+                    player.PickUpItem(player.Location.ItemAt(0));
+                    EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, player.Location.ItemAt(0)));
+                }
+            }
+            else if (input.Consume(KeyBindings.DROP_ITEM))
+            {
+                if (player.Inventory.Count > 0)
+                {
+                    player.DropItem(player.Inventory[0]);
                 }
             }
             else if (input.Consume(Keys.W))

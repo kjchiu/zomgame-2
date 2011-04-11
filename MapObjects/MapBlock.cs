@@ -31,14 +31,22 @@ namespace Zomgame {
         }
 
         public void AddObject(GameObject gObject){
-            if (gObject is Creature) {
-                iCreature = (Creature)gObject;
-            } else if (gObject is Prop) {
-                iProp = (Prop)gObject;
-            } else if (gObject is Item) {
-                itemList.Add((Item)gObject);
+            if (gObject != null)
+            {
+                if (gObject is Creature)
+                {
+                    iCreature = (Creature)gObject;
+                }
+                else if (gObject is Prop)
+                {
+                    iProp = (Prop)gObject;
+                }
+                else if (gObject is Item)
+                {
+                    itemList.Add((Item)gObject);
+                }
+                gObject.Location = this;
             }
-            gObject.Location = this;
         }
 
         public void RemoveObject(GameObject gObject) {
@@ -58,14 +66,14 @@ namespace Zomgame {
 			get
 			{
 				List<MapBlock> otherBlocks = new List<MapBlock>();
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X + 1, coordinates.Y + 1));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X + 1, coordinates.Y - 1));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X + 1, coordinates.Y + 0));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X + 0, coordinates.Y + 1));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X + 0, coordinates.Y - 1));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X - 1, coordinates.Y + 1));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X - 1, coordinates.Y - 1));
-				otherBlocks.Add(gameMap.GetBlockAt(coordinates.X - 1, coordinates.Y + 0));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[+1, +1]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[+1, 0]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[+1, -1]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[0, -1]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[-1, -1]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[-1, 0]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[-1, +1]));
+                otherBlocks.Add(gameMap.GetBlockAt(coordinates[0, +1]));
 				return otherBlocks;
 			}
 		}
