@@ -8,7 +8,7 @@ namespace Zomgame.UI
 {
     public abstract class Widget
     {
-        
+
         #region " Properties "
         /// <summary>
         /// x of top left corner
