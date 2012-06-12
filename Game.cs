@@ -59,16 +59,16 @@ namespace Zomgame
         protected List<Creature> entities;
         protected InputHandler inputHandler;
         protected LinkedList<GameState> states; // new states add to end
-                                                // update using only last
-                                                // draw first to last
-        
-        #endregion 
+        // update using only last
+        // draw first to last
 
-        
+        #endregion
+
+
 
         #region " Properties "
-        public  Player Player 
-        { 
+        public Player Player
+        {
             get { return player; }
         }
 
@@ -76,8 +76,8 @@ namespace Zomgame
         {
             get { return camera; }
         }
-        public Map Map 
-        { 
+        public Map Map
+        {
             get { return map; }
         }
 
@@ -115,18 +115,18 @@ namespace Zomgame
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             graphics.ApplyChanges();
-            
 
-			GraphicsDispenser.initialize();
-            
-           
+
+            GraphicsDispenser.initialize();
+
+
             //inputHandler = InputHandler.Instance;
             Content.RootDirectory = "Content";
 
-            entities = new List<Creature>();          
+            entities = new List<Creature>();
             states = new LinkedList<GameState>();
             this.IsMouseVisible = true;
-            
+
         }
 
         /// <summary>
@@ -137,12 +137,12 @@ namespace Zomgame
         /// </summary>
         protected override void Initialize()
         {
-			
-			for (int i = 0; i < 5; i++)
+
+            for (int i = 0; i < 5; i++)
             {
                 //entities.Add(new Zombie(i * 20, i * 20));
             }
-			
+
             base.Initialize();
         }
 
@@ -160,17 +160,17 @@ namespace Zomgame
             GraphicsDispenser.LoadTextureData(Content);
             GraphicsDispenser.LoadFontData(Content);
 
-            MessageLog.Font = GraphicsDispenser.GetFont("MessageBarFont") ;
-			LoadData();
+            MessageLog.Font = GraphicsDispenser.GetFont("MessageBarFont");
+            LoadData();
             StateFactory.Init(this);
             this.AddState(StateFactory.CreatePlayState(camera));
 
         }
 
-		protected void LoadData()
-		{
-			player = new Player("player_bmp");
-			player.AddSkill(new Skill(SkillNames.MEDICAL_SKILL));
+        protected void LoadData()
+        {
+            player = new Player("player_bmp");
+            player.AddSkill(new Skill(SkillNames.MEDICAL_SKILL));
 
             player.Inventory.Add(ItemFactory.CreateDefaultItem());
             player.Inventory.Add(ItemFactory.CreateDefaultItem());
@@ -184,10 +184,10 @@ namespace Zomgame
             player.Inventory.Add(sword2);
             player.Inventory.Add(WeaponFactory.CreateSword());
 
-            
-            
+
+
             map = new Map(30, 30);
-			map.AddObjectAt(player, 5, 5);
+            map.AddObjectAt(player, 5, 5);
             Zombie lZack = new Zombie(player, map);
             map.AddObjectAt(lZack, 10, 10);
 
@@ -204,18 +204,18 @@ namespace Zomgame
             lSwitch.OffGraphic = new Sprite("toggle_on");
             map.AddObjectAt(lSwitch, 7, 7);
 
-			camera = new Camera(player, Game.VISBLE_MAP_WIDTH, Game.VISBLE_MAP_HEIGHT, map);
+            camera = new Camera(player, Game.VISBLE_MAP_WIDTH, Game.VISBLE_MAP_HEIGHT, map);
 
-			Item item = new Item("item_bmp");
-			map.GetBlockAt(3, 3).AddObject(item);
+            Item item = new Item("item_bmp");
+            map.GetBlockAt(3, 3).AddObject(item);
 
-       }
+        }
 
-		/// <summary>
-		/// UnloadContent will be called once per game and is the place to unload
-		/// all content.
-		/// </summary>
-		protected override void UnloadContent()
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
         {
 
         }
@@ -226,17 +226,17 @@ namespace Zomgame
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {			
+        {
             inputTimePassed += gameTime.ElapsedGameTime.TotalMilliseconds;
-            
+
             states.Last.Value.Update(gameTime);
 
-			InputHandler.Instance.UpdateStates();
-            
+            InputHandler.Instance.UpdateStates();
+
             EventHandler.Instance.FireEvents(TurnsPassed);
-			
+
             base.Update(gameTime);
-           
+
         }
 
         /// <summary>

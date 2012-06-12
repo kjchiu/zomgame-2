@@ -35,7 +35,7 @@ namespace Zomgame.States
             this.entities = game.Entities;
             this.Exit = game.Exit;
             this.font = game.Font;
-            Screen = screen;            
+            Screen = screen;
         }
 
         protected GameState(Game game)
@@ -43,12 +43,12 @@ namespace Zomgame.States
         {
         }
 
-        
+
 
         public void Update(GameTime gameTime)
         {
             Screen.Update(gameTime, InputHandler.Instance);
-            UpdateState(gameTime, InputHandler.Instance);            
+            UpdateState(gameTime, InputHandler.Instance);
         }
         public void Draw(GameTime gameTime)
         {
@@ -69,15 +69,15 @@ namespace Zomgame.States
             StateCreated(state);
         }
 
-		protected bool KeyIsPushed(Keys key)
-		{
-			return InputHandler.Instance.IsKeyPushed(key);
-		}
+        protected bool KeyIsPushed(Keys key)
+        {
+            return InputHandler.Instance.IsKeyPushed(key);
+        }
 
-		protected bool KeyIsHeld(Keys key)
-		{
-			return InputHandler.Instance.IsKeyHeld(key);
-		}
+        protected bool KeyIsHeld(Keys key)
+        {
+            return InputHandler.Instance.IsKeyHeld(key);
+        }
 
 
 

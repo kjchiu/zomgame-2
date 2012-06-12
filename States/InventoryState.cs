@@ -51,13 +51,13 @@ namespace Zomgame.States
 
             IDictionary<ItemSource, Action> playerEventDelegates = new Dictionary<ItemSource, Action>(); 
             
-			IDictionary<ItemEvent, Action> itemEventHandler = new Dictionary<ItemEvent, Action>();
-			itemEventHandler.Add(ItemEvent.GrabItem, () => EventHandler.Instance.AddEvent(EventFactory.CreateDropItemEvent(player, items[(int)selectedSource][(int)selectedIndex])));
+            IDictionary<ItemEvent, Action> itemEventHandler = new Dictionary<ItemEvent, Action>();
+            itemEventHandler.Add(ItemEvent.GrabItem, () => EventHandler.Instance.AddEvent(EventFactory.CreateDropItemEvent(player, items[(int)selectedSource][(int)selectedIndex])));
             itemEventHandler.Add(ItemEvent.UseItem, () => { });
             itemEventDelegates.Add(ItemSource.Player, itemEventHandler);
 
             itemEventHandler = new Dictionary<ItemEvent, Action>();
-			itemEventHandler.Add(ItemEvent.GrabItem, () => EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, items[(int)selectedSource][(int)selectedIndex])));
+            itemEventHandler.Add(ItemEvent.GrabItem, () => EventHandler.Instance.AddEvent(EventFactory.CreatePickupItemEvent(player, items[(int)selectedSource][(int)selectedIndex])));
             itemEventHandler.Add(ItemEvent.UseItem, () => { });
             itemEventDelegates.Add(ItemSource.Ground, itemEventHandler);
         }
@@ -91,7 +91,7 @@ namespace Zomgame.States
                 }
             }
 
-			if (InputHandler.Instance.IsKeyPushed(KeyBindings.LEFT))
+            if (InputHandler.Instance.IsKeyPushed(KeyBindings.LEFT))
             {
 
                 selectedSource = (--selectedSource) % NumSources;
@@ -124,23 +124,23 @@ namespace Zomgame.States
                 if (items[selectedSource].Count > 0)
                 {
                     itemEventDelegates[SelectedSource][ItemEvent.GrabItem]();
-					selectedIndex = 0;
-					selectedSource = (uint)ItemSource.Player;
+                    selectedIndex = 0;
+                    selectedSource = (uint)ItemSource.Player;
                 }
             }
 
-			if (InputHandler.Instance.IsKeyPushed(Keys.A))
-			{
-				foreach (Ability a in items[(int)selectedSource][(int)selectedIndex].Abilities.Values)
-				{
-					Trace.WriteLine(a.Name + " ");
-				}
-			}
+            if (InputHandler.Instance.IsKeyPushed(Keys.A))
+            {
+                foreach (Ability a in items[(int)selectedSource][(int)selectedIndex].Abilities.Values)
+                {
+                    Trace.WriteLine(a.Name + " ");
+                }
+            }
 
-			if (InputHandler.Instance.IsKeyPushed(KeyBindings.DROP_ITEM))
-			{
-				items[(int)selectedSource][(int)selectedIndex].Abilities["Drop"].ItemAction(player);
-			}
+            if (InputHandler.Instance.IsKeyPushed(KeyBindings.DROP_ITEM))
+            {
+                items[(int)selectedSource][(int)selectedIndex].Abilities["Drop"].ItemAction(player);
+            }
 
             if (InputHandler.Instance.IsKeyPushed(Keys.M))
             {
