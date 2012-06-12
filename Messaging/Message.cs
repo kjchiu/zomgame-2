@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Zomgame.Messaging
 {
-    public abstract class Message
+    public class Message
     {
         protected string text;
         protected Color color;
@@ -28,10 +28,10 @@ namespace Zomgame.Messaging
 
 #region " Constructor "
 
-        protected Message(string text) : this(text, Color.White) 
+        public Message(string text) : this(text, Color.White) 
         { }            
 
-        protected Message(string text, Color color)
+        public Message(string text, Color color)
         {
             Text = text;
             Color = color;

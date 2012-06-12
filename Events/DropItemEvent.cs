@@ -24,11 +24,11 @@ namespace Zomgame.Events
         {
             Trace.WriteLine(String.Format("{0} is dropping the {1}", picker.Name, item.Name));
 
-			if (picker.ItemIsEquipped(item))
-			{
-				EventHandler.Instance.AddEvent(EventFactory.CreateUnequipItemEvent(picker, item));
-			}
-			picker.State = Creature.EntityState.IDLE;
+            if (picker.ItemIsEquipped(item))
+            {
+                EventHandler.Instance.AddEvent(EventFactory.CreateUnequipItemEvent(picker, item));
+            }
+            picker.State = Creature.EntityState.IDLE;
 
             picker.Location.AddObject(item);
             picker.Inventory.Remove(item);

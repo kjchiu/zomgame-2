@@ -125,7 +125,15 @@ namespace Zomgame.UI
                     }
                     break;
                 case Actions.Drop:
-                    items[(int)selectedSource][(int)selectedIndex].Abilities["Drop"].ItemAction(player);
+                    var item = items[(int)selectedSource][(int)selectedIndex];
+                    if (selectedSource == 0)
+                    {
+                        item.Abilities["Drop"].ItemAction(player);
+                    }
+                    else
+                    {
+                        MessageBus.Instance.AddMessage(new Message("What, " + item.Name + " is already on the ground."));
+                    }
                     break;
                 case Actions.Pickup:
                     if (items[selectedSource].Count > 0)
